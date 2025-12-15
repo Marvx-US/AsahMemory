@@ -2,7 +2,7 @@
 
 Selamat datang di **Asah Memory 2025** — sebuah platform web interaktif yang dirancang untuk mengabadikan momen kebersamaan dalam bentuk galeri digital yang hidup dan dinamis. Project ini dibangun dengan sentuhan estetika modern "playful doodle" yang hangat dan menyenangkan.
 
-![Asah Memory Preview](https://via.placeholder.com/800x400?text=Asah+Memory+Preview+Banner)
+![Asah Memory Preview](public/image.png)
 
 ---
 
