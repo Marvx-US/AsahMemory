@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FloatingAvatar from './components/FloatingAvatar';
 import ProfileControls from './components/ProfileControls';
+import BackgroundDecorations from './components/BackgroundDecorations';
 import './App.css';
 
 function App() {
@@ -24,15 +25,77 @@ function App() {
     }
   }, [profiles]);
 
-  const addProfile = (data) => {
+  // Helper to compress image
+  const compressImage = (base64Str, maxWidth = 150, maxHeight = 150) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = base64Str;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.7));
+      };
+    });
+  };
+
+  const getOrbitalParams = (index) => {
+    // Distribute into 4 rings based on index for handling 50+ avatars
+    const ring = index % 4;
+    let minR, maxR;
+
+    // Percentages of viewport
+    switch (ring) {
+      case 0: minR = 22; maxR = 28; break; // Inner Ring
+      case 1: minR = 30; maxR = 36; break; // Mid Ring 1
+      case 2: minR = 38; maxR = 42; break; // Mid Ring 2
+      case 3: minR = 44; maxR = 48; break; // Outer Ring
+      default: minR = 30; maxR = 40;
+    }
+
+    return {
+      radiusX: Math.floor(Math.random() * (maxR - minR)) + minR,
+      radiusY: Math.floor(Math.random() * (maxR - minR)) + minR,
+      startAngle: Math.floor(Math.random() * 360),
+      duration: Math.floor(Math.random() * 20) + 20 + (ring * 5), // Outer rings move slightly slower
+      direction: ring % 2 === 0 ? 1 : -1, // Alternating directions for visual interest
+    };
+  };
+
+  const addProfile = async (data) => {
+    // Compress image if it exists
+    let finalImage = data.image;
+    if (data.image) {
+      try {
+        finalImage = await compressImage(data.image);
+      } catch (e) {
+        console.error("Compression failed", e);
+      }
+    }
+
+    const params = getOrbitalParams(profiles.length);
     const newProfile = {
       id: Date.now(),
       name: data.name,
-      image: data.image,
-      x: Math.floor(Math.random() * 80) + 5,
-      y: Math.floor(Math.random() * 60) + 10,
-      size: Math.floor(Math.random() * 40) + 80,
-      delay: Math.random() * 5,
+      image: finalImage,
+      ...params,
+      size: Math.floor(Math.random() * 30) + 70, // Slightly smaller avatars for density
     };
     setProfiles([...profiles, newProfile]);
   };
@@ -43,6 +106,7 @@ function App() {
     <div className="app-container">
       <div style={styles.backgroundGlow} />
       <div style={styles.scanline} />
+      <BackgroundDecorations />
 
       <header style={styles.header}>
         <h1 style={styles.title}>
@@ -87,23 +151,14 @@ const styles = {
     position: 'fixed',
     width: '100vw',
     height: '100vh',
-    background: 'radial-gradient(circle at 50% 10%, rgba(0, 102, 255, 0.15) 0%, rgba(3, 11, 20, 1) 70%)',
+    background: '#FFF8E7',
     top: 0,
     left: 0,
     pointerEvents: 'none',
     zIndex: 0,
   },
   scanline: {
-    background: 'linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1))',
-    backgroundSize: '100% 4px',
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    pointerEvents: 'none',
-    zIndex: 2,
-    opacity: 0.3,
+    display: 'none', // Removed for cleaner look
   },
   header: {
     position: 'fixed',
@@ -113,22 +168,22 @@ const styles = {
     textAlign: 'center',
     zIndex: 20,
     pointerEvents: 'none',
-    textShadow: '0 0 10px rgba(0, 242, 255, 0.5)',
   },
   title: {
     fontSize: '4rem',
     fontWeight: '800',
-    color: '#fff',
+    color: '#0055D4',
     letterSpacing: '2px',
     margin: 0,
+    fontFamily: '"Outfit", sans-serif',
   },
   subtitle: {
-    color: '#00f2ff',
+    color: '#0044AA',
     marginTop: '0.8rem',
     letterSpacing: '4px',
     textTransform: 'uppercase',
     fontSize: '1rem',
-    textShadow: '0 0 10px rgba(0, 242, 255, 0.5)',
+    fontWeight: '600',
   },
   floatingSpace: {
     position: 'fixed',

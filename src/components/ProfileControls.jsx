@@ -25,8 +25,8 @@ const ProfileControls = ({ onJoin }) => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: '-50%', y: 'calc(-50% + 50px)' }}
+            animate={{ opacity: 1, x: '-50%', y: '-50%' }}
             style={styles.wrapper}
         >
             <div style={styles.card}>
@@ -72,26 +72,25 @@ const ProfileControls = ({ onJoin }) => {
 const styles = {
     wrapper: {
         position: 'fixed',
-        bottom: '2rem',
+        top: '50%',
         left: '50%',
-        transform: 'translateX(-50%)',
         zIndex: 100,
         width: '90%',
         maxWidth: '380px',
     },
     card: {
-        background: 'rgba(5, 20, 40, 0.7)',
-        backdropFilter: 'blur(16px)',
+        background: 'rgba(255, 255, 255, 0.65)',
+        backdropFilter: 'blur(20px)',
         padding: '30px',
         borderRadius: '24px',
-        boxShadow: '0 10px 40px rgba(0, 102, 255, 0.2)',
+        boxShadow: '0 20px 50px rgba(0, 85, 212, 0.15)',
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        border: '1px solid rgba(100, 200, 255, 0.2)',
+        border: '1px solid rgba(255, 255, 255, 0.5)',
     },
     title: {
-        color: '#00f2ff',
+        color: '#0055D4',
         fontSize: '1.2rem',
         marginBottom: '5px',
         textAlign: 'center',
@@ -105,8 +104,9 @@ const styles = {
         borderRadius: '50%',
         overflow: 'hidden',
         alignSelf: 'center',
-        border: '2px solid #00f2ff',
-        boxShadow: '0 0 20px rgba(0, 242, 255, 0.3)',
+        border: '2px solid #0055D4',
+        boxShadow: '0 0 20px rgba(0, 85, 212, 0.2)',
+        background: '#fff',
     },
     previewImage: {
         width: '100%',
@@ -117,26 +117,28 @@ const styles = {
         width: '100%',
         padding: '16px',
         borderRadius: '12px',
-        border: '1px solid rgba(100, 200, 255, 0.2)',
-        background: 'rgba(0, 0, 0, 0.3)',
-        color: '#00f2ff',
+        border: '1px solid rgba(0, 85, 212, 0.2)',
+        background: 'rgba(255, 255, 255, 0.8)',
+        color: '#003380',
         fontSize: '1.1rem',
         outline: 'none',
         textAlign: 'center',
         fontFamily: 'inherit',
         transition: 'all 0.3s ease',
+        fontWeight: '500',
     },
     fileLabel: {
         display: 'block',
         padding: '12px',
         textAlign: 'center',
-        background: 'rgba(100, 200, 255, 0.05)',
+        background: 'rgba(0, 85, 212, 0.05)',
         borderRadius: '12px',
-        color: '#a0d9ff',
+        color: '#0055D4',
         cursor: 'pointer',
         fontSize: '0.9rem',
         transition: 'all 0.3s',
-        border: '1px dashed rgba(100, 200, 255, 0.3)',
+        border: '1px dashed rgba(0, 85, 212, 0.3)',
+        fontWeight: '500',
     },
     hiddenInput: {
         display: 'none',
@@ -146,14 +148,14 @@ const styles = {
         padding: '16px',
         borderRadius: '12px',
         border: 'none',
-        background: 'linear-gradient(90deg, #0066ff, #00c3ff)',
+        background: 'linear-gradient(90deg, #0055D4, #0077FF)',
         color: '#fff',
         fontWeight: '700',
         fontSize: '1.1rem',
         cursor: 'pointer',
         letterSpacing: '1px',
         marginTop: '10px',
-        textShadow: '0 2px 5px rgba(0,0,0,0.2)',
+        boxShadow: '0 4px 15px rgba(0, 85, 212, 0.3)',
     },
 };
 

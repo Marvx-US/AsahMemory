@@ -1,38 +1,65 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, x, y, size = 100, delay = 0 }) => {
+const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100 }) => {
+  // Calculate orbit path
+  const orbit = React.useMemo(() => {
+    const keyframes = { left: [], top: [] };
+    const steps = 60; // Number of frames for smoothness
+
+    for (let i = 0; i <= steps; i++) {
+      const progress = i / steps;
+      // Calculate angle: start + full rotation * direction * progress
+      const currentAngle = startAngle + (360 * direction * progress);
+      const rad = (currentAngle * Math.PI) / 180;
+
+      // Calculate position percentage (Center is 50%, 50%)
+      // x = 50 + rX * cos(theta)
+      // y = 50 + rY * sin(theta)
+      const x = 50 + radiusX * Math.cos(rad);
+      const y = 50 + radiusY * Math.sin(rad);
+
+      keyframes.left.push(`${x}%`);
+      keyframes.top.push(`${y}%`);
+    }
+    return keyframes;
+  }, [radiusX, radiusY, startAngle, direction]);
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0 }}
       animate={{
         opacity: 1,
         scale: 1,
-        y: [0, -20, 0],
-        rotate: [0, 5, -5, 0]
+        left: orbit.left,
+        top: orbit.top,
+        rotate: [0, 5, -5, 0] // Gentle rotation
       }}
-      whileHover={{ scale: 1.2, zIndex: 50, filter: 'brightness(1.2)' }}
+      whileHover={{ scale: 1.2, zIndex: 50, filter: 'brightness(1.1)' }}
       transition={{
-        opacity: { duration: 0.5 },
-        scale: { duration: 0.5 },
-        y: {
-          duration: 6,
-          ease: "easeInOut",
+        opacity: { duration: 1 },
+        scale: { duration: 1 },
+        left: {
+          duration: duration,
+          ease: "linear",
           repeat: Infinity,
-          delay: delay
+        },
+        top: {
+          duration: duration,
+          ease: "linear",
+          repeat: Infinity,
         },
         rotate: {
           duration: 7,
           ease: "easeInOut",
           repeat: Infinity,
-          delay: delay + 1
         }
       }}
       style={{
         ...styles.container,
-        left: `${x}%`,
-        top: `${y}%`,
         width: `${size}px`,
+        // Initial position will be handled by animate, but we can set a fallback or start pos if needed
+        // left/top are now animated properties
       }}
     >
       <div style={{ ...styles.avatarWrapper, width: `${size}px`, height: `${size}px` }}>
@@ -47,7 +74,7 @@ const FloatingAvatar = ({ image, name, x, y, size = 100, delay = 0 }) => {
       {name && (
         <motion.div
           style={styles.nameContainer}
-          whileHover={{ scale: 1.1, backgroundColor: 'rgba(0, 100, 255, 0.8)' }}
+          whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 1)' }}
         >
           <span style={styles.name}>{name}</span>
         </motion.div>
@@ -67,22 +94,22 @@ const styles = {
   },
   avatarWrapper: {
     borderRadius: '50%',
-    boxShadow: '0 0 25px rgba(0, 102, 255, 0.3), inset 0 0 10px rgba(0, 102, 255, 0.2)',
+    boxShadow: '0 5px 15px rgba(0, 85, 212, 0.15)',
     padding: '4px',
-    background: 'rgba(255, 255, 255, 0.05)',
+    background: 'rgba(255, 255, 255, 0.5)',
     backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(0, 242, 255, 0.3)',
+    border: '1px solid rgba(0, 85, 212, 0.2)',
   },
   avatarInner: {
     width: '100%',
     height: '100%',
     borderRadius: '50%',
     overflow: 'hidden',
-    backgroundColor: '#051020',
+    backgroundColor: '#fff',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px solid rgba(0,0,0,0.5)',
+    border: '1px solid rgba(0, 85, 212, 0.1)',
   },
   image: {
     width: '100%',
@@ -92,22 +119,22 @@ const styles = {
   placeholder: {
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(135deg, #0066ff, #00f2ff)',
+    background: 'linear-gradient(135deg, #E0F0FF, #FFFFFF)',
   },
   nameContainer: {
     marginTop: '10px',
-    backgroundColor: 'rgba(5, 20, 40, 0.75)',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
     padding: '6px 16px',
     borderRadius: '20px',
     backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(0, 242, 255, 0.2)',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+    border: '1px solid rgba(0, 85, 212, 0.1)',
+    boxShadow: '0 4px 10px rgba(0, 85, 212, 0.1)',
     transition: 'all 0.3s ease',
   },
   name: {
     fontSize: '0.95rem',
-    fontWeight: '500',
-    color: '#e0faff',
+    fontWeight: '600',
+    color: '#003380',
     whiteSpace: 'nowrap',
     letterSpacing: '0.5px',
   },

@@ -1,102 +1,103 @@
-# 🌌 Asah Memory 2025
+# 🌟 Asah Memory 2025
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?logo=framer&logoColor=white)
+Selamat datang di **Asah Memory 2025** — sebuah platform web interaktif yang dirancang untuk mengabadikan momen kebersamaan dalam bentuk galeri digital yang hidup dan dinamis. Project ini dibangun dengan sentuhan estetika modern "playful doodle" yang hangat dan menyenangkan.
 
-> *"Connecting Digital Souls in the Void"*
+![Asah Memory Preview](https://via.placeholder.com/800x400?text=Asah+Memory+Preview+Banner)
 
-A mesmerizing, immersive web experience that creates a shared digital memory space. Users can project their identities as floating, interactive avatars in a cosmic blue void. Built with modern web technologies to deliver a premium, glass-morphic aesthetic.
+---
 
-![Project Preview](public/preview.png)
+## 📋 Tentang Project
 
-## ✨ Features
+**Asah Memory** bukan sekadar galeri foto biasa. Website ini menghadirkan pengalaman visual yang unik di mana profil teman-teman tidak hanya diam, melainkan **mengorbit** mengelilingi pusat halaman layaknya tata surya.
 
--   **Immersive Blue Glass Aesthetic**: A deeply curated UI featuring frosted glass cards, neon cyan accents, and CRT-style scanline overlays.
--   **Floating Avatar System**: User profiles float organically in 3D space with randomized trajectories and physics-based animations.
--   **Multi-User Persistence**: Add multiple "souls" to the void. Data is persisted locally using `localStorage`, keeping the memory alive across sessions.
--   **Interactive Experience**:
-    -   **Hover Effects**: Avatars scale and glow on interaction.
-    -   **Entrance Animations**: Title letters stagger in with spring dynamics.
-    -   **Real-time Preview**: Instant visual feedback when creating a new profile.
--   **Responsive Design**: The ethereal void adjusts to fit any viewport size seamlessly.
+Dibangun untuk komunitas, website ini mampu menampung dan menampilkan **50+ profil pengguna** secara bersamaan tanpa terasa padat, berkat algoritma **Multi-Ring Orbit** yang cerdas.
 
-## 🛠️ Tech Stack
+### ✨ Fitur Utama
 
--   **Framework**: [React 18](https://reactjs.org/)
--   **Build Tool**: [Vite](https://vitejs.dev/)
--   **Animation**: [Framer Motion](https://www.framer.com/motion/)
--   **Styling**: Vanilla CSS (Variables & Modules) with a focus on CSS Filters (`backdrop-filter`) and advanced gradients.
--   **Fonts**: [Outfit](https://fonts.google.com/specimen/Outfit) (Google Fonts).
+*   **🌌 Sistem Orbit Dinamis**: Avatar pengguna bergerak mengelilingi layar dalam lintasan orbit yang presisi, menciptakan efek visual "hidup" yang memukau.
+*   **🎨 Tema Playful & Estetik**: Desain antarmuka yang bersih dengan warna krem lembut dan aksen biru, dilengkapi hiasan animasi pesawat kertas dan bunga yang digambar tangan.
+*   **🚀 Performa Tinggi (50+ User)**: Menggunakan algoritma distribusi cincin (multi-ring) untuk memastikan puluhan avatar dapat tampil rapi tanpa bertumpuk.
+*   **⚡ Kompresi Gambar Otomatis**: Fitur cerdas yang otomatis mengecilkan ukuran file foto saat diunggah, menjaga performa website tetap ringan dan cepat.
+*   **💫 Animasi Halus**: Ditenagai oleh **Framer Motion** untuk setiap transisi, efek hover, dan pergerakan elemen yang sangat mulus.
 
-## 🚀 Getting Started
+---
 
-Follow these steps to deploy your own memory space locally.
+## 🛠️ Teknologi yang Digunakan
 
-### Prerequisites
+Project ini dikembangkan menggunakan stack teknologi modern untuk menjamin performa dan pengalaman pengembang (DX) terbaik:
 
--   Node.js (v16.0.0 or higher)
--   npm or yarn
+*   **[React.js 19](https://react.dev/)**: Library UI utama untuk membangun komponen interaktif.
+*   **[Vite](https://vitejs.dev/)**: Build tool generasi terbaru yang super cepat.
+*   **[Framer Motion](https://www.framer.com/motion/)**: Library animasi standar industri untuk React.
+*   **CSS3 Modern**: Styling responsif dengan Glassmorphism effect.
 
-### Installation
+---
 
-1.  **Clone the repository**
+## 🚀 Instalasi & Menjalankan Project
+
+Ikuti langkah-langkah berikut untuk menjalankan project ini di komputer lokal Anda:
+
+### Prasyarat
+Pastikan Anda sudah menginstal [Node.js](https://nodejs.org/) (versi 16 atau terbaru).
+
+### Langkah-langkah
+
+1.  **Clone Repository**
     ```bash
-    git clone https://github.com/yourusername/asaha-memory.git
-    cd asaha-memory
+    git clone https://github.com/username/asahamemory.git
+    cd asahamemory
     ```
 
-2.  **Install dependencies**
+2.  **Instal Dependensi**
     ```bash
     npm install
-    # or
-    yarn install
     ```
 
-3.  **Run the development server**
+3.  **Jalankan Mode Pengembangan**
     ```bash
     npm run dev
     ```
+    Buka `http://localhost:5173` di browser Anda.
 
-4.  **Open the void**
-    Navigate to `http://localhost:5173` in your browser.
+4.  **Build untuk Produksi**
+    ```bash
+    npm run build
+    npm run preview
+    ```
 
-## 📁 Project Structure
+---
 
-```
-asaha-memory/
-├── public/             # Static assets
-│   └── preview.png     # Project screenshot
-├── src/
-│   ├── components/
-│   │   ├── FloatingAvatar.jsx  # The drifting user profile component
-│   │   └── ProfileControls.jsx # The glass-morphic input interface
-│   ├── App.jsx         # Main application logic & layout
-│   ├── App.css         # Component-specific styles
-│   ├── index.css       # Global theme variables & resets
-│   └── main.jsx        # Entry point
-├── index.html          # HTML Entry
-├── vite.config.js      # Vite configuration
-└── package.json        # Dependencies & Scripts
-```
+## 📂 Struktur Project
 
-## 🎨 Customization
-
-The project uses CSS variables in `src/index.css` for easy theming. You can adjust the "void" colors here:
-
-```css
-:root {
-  --bg-color: #030b14;        /* Deep background */
-  --accent-cyan: #00f2ff;     /* Neon glow color */
-  --glass-bg: rgba(5, 20, 40, 0.6); /* Card opacity */
-}
+```text
+src/
+├── components/
+│   ├── FloatingAvatar.jsx       # Komponen avatar dengan animasi orbit
+│   ├── ProfileControls.jsx      # Form input data pengguna (Tengah)
+│   └── BackgroundDecorations.jsx # Hiasan latar belakang (Pesawat, Bunga)
+├── App.jsx                      # Logika utama (State profil, Orbit, Kompresi)
+├── App.css                      # Styling global
+└── main.jsx                     # Entry point aplikasi
 ```
 
-## 🤝 Contributing
+---
 
-Contributions are welcome! If you have ideas for new features (e.g., WebSocket networking for real-time multiplayer, audio ambience, etc.), feel free to fork and submit a Pull Request.
+## 🤝 Kontribusi
 
-## 📄 License
+Kami sangat terbuka untuk kontribusi! Jika Anda memiliki ide fitur baru atau perbaikan:
 
-This project is open-source and available under the [MIT License](LICENSE).
+1.  Fork repository ini.
+2.  Buat branch fitur baru (`git checkout -b fitur-keren`).
+3.  Commit perubahan Anda (`git commit -m 'Menambahkan fitur keren'`).
+4.  Push ke branch tersebut (`git push origin fitur-keren`).
+5.  Buat Pull Request.
+
+---
+
+## 📝 Lisensi
+
+Project ini dilisensikan di bawah [MIT License](LICENSE).
+
+---
+
+Dibuat dengan ❤️ untuk **Teman-teman Asah**.
