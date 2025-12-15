@@ -95,7 +95,8 @@ function App() {
       name: data.name,
       image: finalImage,
       ...params,
-      size: Math.floor(Math.random() * 30) + 70, // Slightly smaller avatars for density
+      // Responsive size: base clamp * random scale factor
+      size: `calc(clamp(50px, 12vw, 90px) * ${(0.8 + Math.random() * 0.4).toFixed(2)})`,
     };
     setProfiles([...profiles, newProfile]);
   };
@@ -170,20 +171,24 @@ const styles = {
     pointerEvents: 'none',
   },
   title: {
-    fontSize: '4rem',
+    fontSize: 'clamp(2.5rem, 8vw, 5rem)',
     fontWeight: '800',
     color: '#0055D4',
     letterSpacing: '2px',
     margin: 0,
     fontFamily: '"Outfit", sans-serif',
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   subtitle: {
     color: '#0044AA',
     marginTop: '0.8rem',
     letterSpacing: '4px',
     textTransform: 'uppercase',
-    fontSize: '1rem',
+    fontSize: 'clamp(0.75rem, 3vw, 1rem)',
     fontWeight: '600',
+    padding: '0 10px',
   },
   floatingSpace: {
     position: 'fixed',

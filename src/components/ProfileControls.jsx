@@ -76,12 +76,12 @@ const styles = {
         left: '50%',
         zIndex: 100,
         width: '90%',
-        maxWidth: '380px',
+        maxWidth: '380px', // Ensures it looks good on desktop
     },
     card: {
         background: 'rgba(255, 255, 255, 0.65)',
         backdropFilter: 'blur(20px)',
-        padding: '30px',
+        padding: 'clamp(20px, 5vw, 30px)', // Responsive padding
         borderRadius: '24px',
         boxShadow: '0 20px 50px rgba(0, 85, 212, 0.15)',
         display: 'flex',

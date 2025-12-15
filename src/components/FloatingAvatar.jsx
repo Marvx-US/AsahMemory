@@ -57,12 +57,15 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
       }}
       style={{
         ...styles.container,
-        width: `${size}px`,
-        // Initial position will be handled by animate, but we can set a fallback or start pos if needed
-        // left/top are now animated properties
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
       }}
     >
-      <div style={{ ...styles.avatarWrapper, width: `${size}px`, height: `${size}px` }}>
+      <div style={{
+        ...styles.avatarWrapper,
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size
+      }}>
         <div style={styles.avatarInner}>
           {image ? (
             <img src={image} alt={name} style={styles.image} />
@@ -71,15 +74,17 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
           )}
         </div>
       </div>
-      {name && (
-        <motion.div
-          style={styles.nameContainer}
-          whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 1)' }}
-        >
-          <span style={styles.name}>{name}</span>
-        </motion.div>
-      )}
-    </motion.div>
+      {
+        name && (
+          <motion.div
+            style={styles.nameContainer}
+            whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 1)' }}
+          >
+            <span style={styles.name}>{name}</span>
+          </motion.div>
+        )
+      }
+    </motion.div >
   );
 };
 
