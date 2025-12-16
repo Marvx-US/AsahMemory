@@ -1,124 +1,104 @@
-# 🌟 Asah Memory 2025
+# � Asah Memory 2025
 
-Selamat datang di **Asah Memory 2025** — sebuah platform web interaktif yang dirancang untuk mengabadikan momen kebersamaan dalam bentuk galeri digital yang hidup dan dinamis. Project ini dibangun dengan sentuhan estetika modern "Glassmorphism" yang elegan.
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Next.js](https://img.shields.io/badge/Next.js-15-black) ![Tailwind](https://img.shields.io/badge/Style-Glassmorphism-cyan)
 
-![Asah Memory Preview](https://via.placeholder.com/800x400?text=Asah+Memory+Preview)
-
----
-
-## 📋 Tentang Project
-
-**Asah Memory** menghadirkan pengalaman visual yang unik di mana profil teman-teman tidak hanya diam, melainkan **mengorbit** mengelilingi pusat halaman layaknya tata surya. Anda dapat mengunggah foto, dan foto tersebut akan terlihat oleh semua pengguna lain di jaringan lokal Anda.
-
-### ✨ Fitur Utama
-
-*   **🌌 Multiplayer Lokal**: Avatar yang Anda tambahkan disimpan di server dan dapat dilihat oleh teman yang terhubung ke jaringan Wi-Fi yang sama.
-*   **🖱️ Interaktif**: Klik avatar teman untuk melihat kartu identitas "Pop-up" dengan detail lengkap.
-*   **🎨 Glassmorphism UI**: Desain antarmuka transparan yang modern, konsisten dari form hingga popup modal.
-*   **⭕ Perfect Circle**: Avatar didesain bulat sempurna dengan rasio aspek terkunci.
-*   **� Performa Tinggi**: Menangani 50+ avatar bergerak sekaligus tanpa lag menggunakan Framer Motion.
+**Selamat datang di Asah Memory 2025** — sebuah platform web interaktif yang dirancang untuk mengabadikan momen kebersamaan dalam bentuk galeri digital yang hidup dan dinamis. Project ini dibangun dengan sentuhan estetika modern "Glassmorphism" yang elegan, di mana profil pengguna mengorbit layaknya benda angkasa.
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## ✨ Fitur Utama
 
-**Frontend (Client)**
-*   **[React.js 19](https://react.dev/)**: Library UI utama.
-*   **[Vite](https://vitejs.dev/)**: Build tool super cepat.
-*   **[Framer Motion](https://www.framer.com/motion/)**: Animasi orbit dan transisi halus.
-
-**Backend (Server)**
-*   **[Node.js](https://nodejs.org/) & [Express](https://expressjs.com/)**: Server API RESTful ringan.
-*   **Local Storage**: Data disimpan dalam file JSON (Zero-config database).
+*   **🪐 Dynamic Orbit System**: Profil teman-teman tidak hanya diam, tetapi mengorbit mengelilingi pusat halaman dengan animasi yang halus dan realistis.
+*   **🖱️ Interaktif & Imersif**: Klik avatar untuk melihat kartu identitas "Pop-up" dengan efek *backdrop blur* yang modern.
+*   **📱 Responsif Sempurna**: Didesain agar terlihat memukau baik di Layar Lebar (Desktop) maupun Layar Sentuh (Mobile).
+*   **💾 Dual Integrasi Database**: Mendukung penyimpanan file lokal (untuk offline/dev) dan **Supabase** (untuk cloud production) secara otomatis.
+*   **🎨 Glassmorphism UI**: Antarmuka transparan, bersih, dan futuristik.
 
 ---
 
-## 🚀 Instalasi & Menjalankan Project
+## 🛠️ Teknologi
 
-Project ini terdiri dari dua bagian: **Frontend** dan **Backend**. Anda perlu menjalankan keduanya.
+Project ini dibangun menggunakan teknologi web modern untuk performa dan pengalaman pengembang terbaik:
 
-### Prasyarat
-*   [Node.js](https://nodejs.org/) (versi 16 atau terbaru).
+*   **[Next.js 15](https://nextjs.org/)**: Framework React utama (App Router).
+*   **[React 19](https://react.dev/)**: Library UI.
+*   **[Framer Motion](https://www.framer.com/motion/)**: Untuk animasi orbit kompleks dan transisi.
+*   **[Vercel KV / Supabase](https://supabase.com/)**: Opsional, untuk penyimpanan data persisten di cloud.
 
-### Langkah 1: Jalankan Backend (Server)
-Buka terminal baru dan jalankan:
+---
+
+## 🚀 Panduan Instalasi (Lokal)
+
+Ingin menjalankan project ini di komputer Anda sendiri? Ikuti langkah mudah ini:
+
+### 1. Prasyarat
+Pastikan Anda sudah menginstall [Node.js](https://nodejs.org/) (Versi 18 LTS atau terbaru).
+
+### 2. Instalasi & Jalankan
+Buka terminal di folder project dan jalankan perintah:
 
 ```bash
-cd backend
-npm install   # (Hanya pertama kali)
-npm start
-```
-_Output: Server running on http://localhost:3001_
-
-### Langkah 2: Jalankan Frontend (Aplikasi)
-Buka **terminal kedua** (terminal baru) dan jalankan:
-
-```bash
-cd frontend
-npm install   # (Hanya pertama kali)
-npm run dev
-```
-_Buka link yang muncul (biasanya [http://localhost:5173](http://localhost:5173)) di browser._
-
-### Langkah 3: Akses dari HP / Komputer Lain
-Untuk melihat fitur multiplayer:
-1.  Pastikan HP/Laptop lain terhubung ke **Wi-Fi yang sama**.
-2.  Cari IP Address komputer Anda (misal `192.168.1.15`).
-3.  Buka `http://192.168.1.15:5173` di HP.
-
----
-
-## 🏭 Mode Produksi (Satu Perintah)
-
-Untuk menjalankan aplikasi dalam mode produksi (lebih cepat dan stabil), Anda dapat menjalankannya langsung dari folder utama (root) tanpa perlu membuka dua terminal.
-
-### 1. Instalasi Semua Dependensi
-Jalankan perintah ini sekali saja di awal:
-```bash
+# Instal semua dependensi
 npm run install-all
-```
 
-### 2. Jalankan Aplikasi
-Gunakan perintah ini untuk mem-build frontend dan menjalankan server sekaligus:
-```bash
-npm run prod
-```
-Aplikasi akan berjalan di `http://localhost:3001` (atau port yang Anda tentukan).
-Untuk development dengan dua terminal dalam satu perintah, gunakan:
-```bash
+# Jalankan server development
 npm run dev
 ```
 
+Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
+
 ---
 
-## 📂 Struktur Folder Baru
+## ☁️ Panduan Deployment (Online)
+
+Project ini didesain agar "Vercel-Ready". Untuk meng-online-kan website:
+
+### 1. Push ke GitHub
+Upload kode ini ke repository GitHub Anda.
+
+### 2. Import di Vercel
+Buka dashboard [Vercel](https://vercel.com), buat project baru, dan import repository GitHub tadi.
+
+### 3. Setup Database (Supabase)
+Karena Vercel bersifat *serverless* (file lokal akan hilang saat restart), Anda wajib menggunakan database cloud seperti Supabase agar data profil tersimpan permanen.
+
+1.  Buat project di [Supabase.com](https://supabase.com/).
+2.  Jalankan perintah SQL ini di "SQL Editor" Supabase:
+    ```sql
+    create table profiles (
+      id bigint generated by default as identity primary key,
+      content jsonb not null,
+      created_at timestamp with time zone default timezone('utc'::text, now()) not null
+    );
+    ```
+3.  Di Dashboard Vercel (Menu **Settings > Environment Variables**), tambahkan:
+    *   `NEXT_PUBLIC_SUPABASE_URL`: (URL Project Supabase Anda)
+    *   `NEXT_PUBLIC_SUPABASE_ANON_KEY`: (Anon Key Supabase Anda)
+
+4.  **Redeploy** (atau deploy ulang) project Anda di Vercel.
+
+---
+
+## 📂 Struktur Project
 
 ```text
 /
-├── backend/               # Server Side
-│   ├── server.js          # Kode server Express
-│   ├── server_profiles.json # Database lokal (Jangan dicommit)
-│   └── .env.example       # Template environment variables
-├── frontend/              # Client Side
-│   ├── src/               # Source code React
-│   │   ├── components/    # FloatingAvatar, ProfileControls, dll
-│   │   └── App.jsx        # Halaman utama
-│   └── package.json
-└── README.md
+├── frontend/
+│   ├── src/app/           # Next.js App Router (Halaman & API)
+│   ├── src/components/    # Komponen (Avatar, Modal, dll)
+│   ├── src/lib/           # Konfigurasi Supabase
+│   └── data/              # Fallback penyimpanan lokal
+├── package.json           # Skrip utama
+└── README.md              # Dokumentasi ini
 ```
 
 ---
 
 ## 🤝 Kontribusi
 
-Kami sangat terbuka untuk kontribusi! Silakan fork repository ini dan buat Pull Request.
-
----
+Konsep atau ide baru? Silakan fork repository ini dan kirimkan Pull Request!
 
 ## 📝 Lisensi
 
-Project ini dilisensikan di bawah [MIT License](LICENSE).
-
----
-
 Dibuat dengan ❤️ untuk **Teman-teman Asah**.
+Dilindungi di bawah lisensi [MIT](LICENSE).
