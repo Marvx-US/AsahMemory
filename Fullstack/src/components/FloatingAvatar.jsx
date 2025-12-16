@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick }) => {
+const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick, dragConstraints }) => {
   // Calculate orbit path
   const orbit = React.useMemo(() => {
     const keyframes = { left: [], top: [] };
@@ -30,6 +30,7 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
   return (
     <motion.div
       drag
+      dragConstraints={dragConstraints}
       dragMomentum={true}
       dragElastic={0.2}
       onClick={onClick}
@@ -106,7 +107,7 @@ const Scribble = () => (
   <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
     <motion.path
       d="M45.5 98.5C45.5 98.5 25.5 68.5 56.5 49.5C87.5 30.5 130.5 34.5 149.5 59.5C168.5 84.5 158.5 131.5 125.5 152.5C92.5 173.5 45.4999 158.5 35.5 128.5C25.5 98.5 53.5 58.5 91.5 52.5C129.5 46.5 171.5 73.5 178.5 120.5"
-      stroke="#FFD700"
+      stroke="#0055D4"
       strokeWidth="8"
       strokeLinecap="round"
       strokeLinejoin="round"

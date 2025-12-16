@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import FloatingAvatar from '../components/FloatingAvatar';
 import ProfileControls from '../components/ProfileControls';
@@ -9,6 +9,7 @@ import BackgroundDecorations from '../components/BackgroundDecorations';
 export default function Home() {
     const [profiles, setProfiles] = useState([]);
     const [selectedProfile, setSelectedProfile] = useState(null);
+    const constraintsRef = useRef(null);
 
     useEffect(() => {
         const fetchProfiles = async () => {
@@ -157,12 +158,13 @@ export default function Home() {
                 </motion.p>
             </header>
 
-            <div style={styles.floatingSpace}>
+            <div style={styles.floatingSpace} ref={constraintsRef}>
                 {profiles.map((profile) => (
                     <FloatingAvatar
                         key={profile.id}
                         {...profile}
                         onClick={() => setSelectedProfile(profile)}
+                        dragConstraints={constraintsRef}
                     />
                 ))}
             </div>
