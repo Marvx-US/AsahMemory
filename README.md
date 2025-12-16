@@ -119,7 +119,7 @@ Cara bermain di sandbox ini:
 | :--- | :---: | :--- |
 | **Hover** | 👆 | **Scan Identity** (Melihat Title & Aura) |
 | **Click** | 🖱️ | **Open Detail** (Pop-up Kartu Identitas) |
-| **Drag** | ✊ | **Throw Avatar** (Lempar Fisika!) |
+| **Drag** | ✊ | **Throw Avatar** (Lempar!) |
 | **Wait** | ⏳ | **Observe Orbit** (Lihat rotasi alami) |
 
 ---

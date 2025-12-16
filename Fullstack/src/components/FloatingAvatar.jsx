@@ -1,29 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick, dragConstraints }) => {
-  // Calculate orbit path
-  const orbit = React.useMemo(() => {
-    const keyframes = { left: [], top: [] };
-    const steps = 60; // Number of frames for smoothness
-
-    for (let i = 0; i <= steps; i++) {
-      const progress = i / steps;
-      // Calculate angle: start + full rotation * direction * progress
-      const currentAngle = startAngle + (360 * direction * progress);
-      const rad = (currentAngle * Math.PI) / 180;
-
-      // Calculate position percentage (Center is 50%, 50%)
-      // x = 50 + rX * cos(theta)
-      // y = 50 + rY * sin(theta)
-      const x = 50 + radiusX * Math.cos(rad);
-      const y = 50 + radiusY * Math.sin(rad);
-
-      keyframes.left.push(`${x}%`);
-      keyframes.top.push(`${y}%`);
-    }
-    return keyframes;
-  }, [radiusX, radiusY, startAngle, direction]);
+const FloatingAvatar = ({ image, name, title, rarity, top, left, duration, delay, size = 100, onClick, dragConstraints }) => {
+  // Generate random drift range for unique movement per avatar
+  const driftX = React.useMemo(() => [0, 30 + Math.random() * 20, 0, -30 - Math.random() * 20, 0], []);
+  const driftY = React.useMemo(() => [0, -30 - Math.random() * 20, 0, 30 + Math.random() * 20, 0], []);
 
   const [isHovered, setIsHovered] = React.useState(false);
 
@@ -36,12 +17,12 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
       onClick={onClick}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      initial={{ opacity: 0, scale: 0 }}
+      initial={{ opacity: 0, scale: 0, top, left }}
       animate={{
         opacity: 1,
         scale: 1,
-        left: orbit.left,
-        top: orbit.top,
+        x: driftX, // Float horizontally
+        y: driftY, // Float vertically
         rotate: [0, 5, -5, 0] // Gentle rotation
       }}
       whileHover={{ scale: 1.2, zIndex: 50, filter: 'brightness(1.1)', cursor: 'grab' }}
@@ -49,15 +30,17 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
       transition={{
         opacity: { duration: 1 },
         scale: { duration: 1 },
-        left: {
+        x: {
           duration: duration,
-          ease: "linear",
+          ease: "easeInOut",
           repeat: Infinity,
+          delay: delay
         },
-        top: {
-          duration: duration,
-          ease: "linear",
+        y: {
+          duration: duration * 1.2, // Different timing for XY to look natural
+          ease: "easeInOut",
           repeat: Infinity,
+          delay: delay
         },
         rotate: {
           duration: 7,

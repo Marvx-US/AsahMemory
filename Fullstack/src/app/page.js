@@ -18,8 +18,30 @@ export default function Home() {
                 const response = await fetch('/api/profiles');
                 if (response.ok) {
                     const data = await response.json();
-                    // Server handles filtering now (Resets at 01:00 WIB)
-                    setProfiles(data);
+
+
+                    setProfiles(prevProfiles => {
+                        return data.map(newProfile => {
+                            // 1. If profile already counts as "new schema" (has top/left), use it directly.
+                            if (newProfile.top && newProfile.left) return newProfile;
+
+                            // 2. If it's legacy data (missing top/left), check if we already generated params for it.
+                            const existing = prevProfiles.find(p => p.id === newProfile.id);
+                            if (existing && existing.top && existing.left) {
+                                // Preserve the locally generated params so it doesn't jump
+                                return {
+                                    ...newProfile,
+                                    top: existing.top,
+                                    left: existing.left,
+                                    duration: existing.duration,
+                                    delay: existing.delay
+                                };
+                            }
+
+                            // 3. If it's legacy and seen for the first time, generate params.
+                            return { ...newProfile, ...getFloatingParams() };
+                        });
+                    });
                 }
             } catch (error) {
                 console.error("Failed to fetch profiles:", error);
@@ -63,26 +85,20 @@ export default function Home() {
         });
     };
 
-    const getOrbitalParams = (index) => {
-        // Distribute into 4 rings based on index for handling 50+ avatars
-        const ring = index % 4;
-        let minR, maxR;
+    const getFloatingParams = () => {
+        // Random position between 5% and 90% to keep away from edges
+        const top = Math.floor(Math.random() * 85) + 5;
+        const left = Math.floor(Math.random() * 85) + 5;
 
-        // Percentages of viewport
-        switch (ring) {
-            case 0: minR = 22; maxR = 28; break; // Inner Ring
-            case 1: minR = 30; maxR = 36; break; // Mid Ring 1
-            case 2: minR = 38; maxR = 42; break; // Mid Ring 2
-            case 3: minR = 44; maxR = 48; break; // Outer Ring
-            default: minR = 30; maxR = 40;
-        }
+        // Random drift characteristics
+        const duration = Math.floor(Math.random() * 15) + 20; // 20-35s duration
+        const delay = Math.random() * -20; // Start at random time
 
         return {
-            radiusX: Math.floor(Math.random() * (maxR - minR)) + minR,
-            radiusY: Math.floor(Math.random() * (maxR - minR)) + minR,
-            startAngle: Math.floor(Math.random() * 360),
-            duration: Math.floor(Math.random() * 20) + 20 + (ring * 5), // Outer rings move slightly slower
-            direction: ring % 2 === 0 ? 1 : -1, // Alternating directions for visual interest
+            top: `${top}%`,
+            left: `${left}%`,
+            duration,
+            delay
         };
     };
 
@@ -153,7 +169,7 @@ export default function Home() {
             cleanName = cleanName.slice(0, -2);
         }
 
-        const params = getOrbitalParams(profiles.length);
+        const params = getFloatingParams();
         const { title, rarity } = generateGachaTitle(forcedRarity);
 
         const newProfile = {
