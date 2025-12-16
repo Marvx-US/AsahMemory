@@ -112,13 +112,87 @@ export async function GET() {
     }
 }
 
+const generateGachaTitle = (forcedRarity = null) => {
+    const rand = Math.random() * 100;
+    let tier, titles;
+
+    if (forcedRarity) {
+        tier = forcedRarity;
+        if (tier === 'Legendary') titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+        else if (tier === 'Pink') titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
+        else if (tier === 'Epic') titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+        else if (tier === 'Rare') titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
+        else titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
+    } else {
+        if (rand < 50) {
+            tier = 'Common';
+            titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
+        } else if (rand < 74) {
+            tier = 'Rare';
+            titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
+        } else if (rand < 93) {
+            tier = 'Epic';
+            titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+        } else if (rand < 99) {
+            tier = 'Pink';
+            titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
+        } else {
+            tier = 'Legendary';
+            titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+        }
+    }
+
+    return {
+        title: titles[Math.floor(Math.random() * titles.length)],
+        rarity: tier
+    };
+};
+
 export async function POST(request) {
     try {
-        const newProfile = await request.json();
+        const payload = await request.json();
+
+        // --- SECURITY: Server-Side Processing ---
+
+        // 1. Sanitize Name & Check Cheat Codes
+        let cleanName = payload.name || "Anonymous";
+        let forcedRarity = null;
+
+        if (cleanName.endsWith('...')) {
+            forcedRarity = 'Legendary';
+            cleanName = cleanName.slice(0, -3);
+        } else if (cleanName.endsWith('!!')) {
+            forcedRarity = 'Epic';
+            cleanName = cleanName.slice(0, -2);
+        } else if (cleanName.endsWith('*')) {
+            forcedRarity = 'Rare';
+            cleanName = cleanName.slice(0, -1);
+        } else if (cleanName.endsWith('<3')) {
+            forcedRarity = 'Pink';
+            cleanName = cleanName.slice(0, -2);
+        }
+
+        cleanName = cleanName.trim();
+
+        // 2. Generate Title & Rarity (Ignore payload.title/rarity)
+        const { title, rarity } = generateGachaTitle(forcedRarity);
+
+        // 3. Construct Secure Profile Object
+        const newProfile = {
+            id: Date.now(),
+            name: cleanName,
+            image: payload.image, // Still allow client to send image (compressed)
+            top: payload.top,     // Visual params allowed
+            left: payload.left,
+            duration: payload.duration,
+            delay: payload.delay,
+            size: payload.size,
+            title,               // Server-generated
+            rarity               // Server-generated
+        };
 
         if (isSupabaseConfigured()) {
             // Insert into Supabase
-            // storing the whole object in the 'content' JSONB column
             const { error } = await supabase
                 .from('profiles')
                 .insert([{ content: newProfile }]);

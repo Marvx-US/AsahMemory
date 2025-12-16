@@ -102,43 +102,7 @@ export default function Home() {
         };
     };
 
-    const generateGachaTitle = (forcedRarity = null) => {
-        const rand = Math.random() * 100;
-        let tier, titles;
 
-        // Force rarity if cheat code used
-        if (forcedRarity) {
-            tier = forcedRarity;
-            if (tier === 'Legendary') titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
-            else if (tier === 'Pink') titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
-            else if (tier === 'Epic') titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
-            else if (tier === 'Rare') titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
-            else titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
-        } else {
-            // Normal Logic: Common (50%), Rare (24%), Epic (19%), Pink (6%), Legendary (1%)
-            if (rand < 50) {
-                tier = 'Common';
-                titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
-            } else if (rand < 74) {
-                tier = 'Rare';
-                titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
-            } else if (rand < 93) {
-                tier = 'Epic';
-                titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
-            } else if (rand < 99) {
-                tier = 'Pink';
-                titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
-            } else {
-                tier = 'Legendary';
-                titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
-            }
-        }
-
-        return {
-            title: titles[Math.floor(Math.random() * titles.length)],
-            rarity: tier
-        };
-    };
 
     const addProfile = async (data) => {
         // Compress image if it exists
@@ -151,33 +115,12 @@ export default function Home() {
             }
         }
 
-        // Cheat Code Detection
-        let forcedRarity = null;
-        let cleanName = data.name;
-
-        if (cleanName.endsWith('...')) {
-            forcedRarity = 'Legendary';
-            cleanName = cleanName.slice(0, -3); // Start index, count (from end)
-        } else if (cleanName.endsWith('!!')) {
-            forcedRarity = 'Epic';
-            cleanName = cleanName.slice(0, -2);
-        } else if (cleanName.endsWith('*')) {
-            forcedRarity = 'Rare';
-            cleanName = cleanName.slice(0, -1);
-        } else if (cleanName.endsWith('<3')) {
-            forcedRarity = 'Pink';
-            cleanName = cleanName.slice(0, -2);
-        }
-
         const params = getFloatingParams();
-        const { title, rarity } = generateGachaTitle(forcedRarity);
 
-        const newProfile = {
-            id: Date.now(),
-            name: cleanName.trim(), // Ensure no trailing spaces
+        // Prepare payload (Client sends RAW name, Server handles cheat codes & title)
+        const payload = {
+            name: data.name,
             image: finalImage,
-            title,
-            rarity,
             ...params,
             // Responsive size: base clamp * random scale factor
             size: `calc(clamp(50px, 12vw, 90px) * ${(0.8 + Math.random() * 0.4).toFixed(2)})`,
@@ -185,15 +128,19 @@ export default function Home() {
 
         try {
             // Changed to relative URL for Next.js API Route
-            await fetch('/api/profiles', {
+            const response = await fetch('/api/profiles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newProfile),
+                body: JSON.stringify(payload),
             });
-            // Optimistic update
-            setProfiles([...profiles, newProfile]);
+
+            if (response.ok) {
+                const savedProfile = await response.json();
+                // Update state with the TRUE profile from server (contains generated title/rarity)
+                setProfiles([...profiles, savedProfile]);
+            }
         } catch (error) {
             console.error("Failed to save profile:", error);
         }
