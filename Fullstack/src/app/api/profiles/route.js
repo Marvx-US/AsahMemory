@@ -39,8 +39,25 @@ const writeLocalData = (data) => {
 // --- Main API Handlers ---
 
 export async function GET() {
-    const TEN_MINUTES = 10 * 60 * 1000;
-    const now = Date.now();
+    // Logic: Reset every day at 01:00 WIB (18:00 UTC)
+    // We want to keep profiles created AFTER the most recent 01:00 WIB.
+
+    const now = new Date();
+    const currentUtcHour = now.getUTCHours();
+
+    let cutoffDate = new Date(now);
+    cutoffDate.setUTCMinutes(0, 0, 0);
+
+    if (currentUtcHour >= 18) {
+        // If it's past 18:00 UTC (01:00 WIB next day), the cutoff is today 18:00 UTC
+        cutoffDate.setUTCHours(18);
+    } else {
+        // If it's before 18:00 UTC, the cutoff was yesterday 18:00 UTC
+        cutoffDate.setUTCDate(cutoffDate.getUTCDate() - 1);
+        cutoffDate.setUTCHours(18);
+    }
+
+    const cutoffTime = cutoffDate.getTime();
 
     if (isSupabaseConfigured()) {
         try {
@@ -57,8 +74,8 @@ export async function GET() {
 
             data.forEach(row => {
                 const profile = row.content;
-                // Check if profile is expired
-                if (now - profile.id > TEN_MINUTES) {
+                // Check if profile is older than the cutoff
+                if (profile.id < cutoffTime) {
                     idsToDelete.push(row.id);
                 } else {
                     validProfiles.push(profile);
@@ -83,7 +100,7 @@ export async function GET() {
         console.log("Supabase not configured. Using local file.");
         const profiles = readLocalData();
 
-        const validProfiles = profiles.filter(profile => (now - profile.id) < TEN_MINUTES);
+        const validProfiles = profiles.filter(profile => profile.id >= cutoffTime);
 
         // If cleanup happened, save the file
         if (validProfiles.length < profiles.length) {

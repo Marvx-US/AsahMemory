@@ -18,11 +18,8 @@ export default function Home() {
                 const response = await fetch('/api/profiles');
                 if (response.ok) {
                     const data = await response.json();
-                    // Filter avatars older than 10 minutes
-                    const ONE_HOUR = 60 * 60 * 1000;
-                    const now = Date.now();
-                    const filteredData = data.filter(profile => (now - profile.id) < ONE_HOUR);
-                    setProfiles(filteredData);
+                    // Server handles filtering now (Resets at 01:00 WIB)
+                    setProfiles(data);
                 }
             } catch (error) {
                 console.error("Failed to fetch profiles:", error);
@@ -89,6 +86,30 @@ export default function Home() {
         };
     };
 
+    const generateGachaTitle = () => {
+        const rand = Math.random() * 100;
+        let tier, titles;
+
+        if (rand < 60) {
+            tier = 'Common';
+            titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
+        } else if (rand < 90) {
+            tier = 'Rare';
+            titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
+        } else if (rand < 99) {
+            tier = 'Epic';
+            titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+        } else {
+            tier = 'Legendary';
+            titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+        }
+
+        return {
+            title: titles[Math.floor(Math.random() * titles.length)],
+            rarity: tier
+        };
+    };
+
     const addProfile = async (data) => {
         // Compress image if it exists
         let finalImage = data.image;
@@ -101,10 +122,14 @@ export default function Home() {
         }
 
         const params = getOrbitalParams(profiles.length);
+        const { title, rarity } = generateGachaTitle();
+
         const newProfile = {
             id: Date.now(),
             name: data.name,
             image: finalImage,
+            title,
+            rarity,
             ...params,
             // Responsive size: base clamp * random scale factor
             size: `calc(clamp(50px, 12vw, 90px) * ${(0.8 + Math.random() * 0.4).toFixed(2)})`,

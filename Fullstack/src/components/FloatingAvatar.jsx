@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick, dragConstraints }) => {
+const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick, dragConstraints }) => {
   // Calculate orbit path
   const orbit = React.useMemo(() => {
     const keyframes = { left: [], top: [] };
@@ -96,11 +96,29 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
             whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 255, 255, 1)' }}
           >
             <span style={styles.name}>{name}</span>
+            {title && (
+              <div style={{
+                ...styles.badge,
+                background: rarityColors[rarity]?.bg || '#eee',
+                color: rarityColors[rarity]?.text || '#333',
+                border: `1px solid ${rarityColors[rarity]?.border || '#ccc'}`,
+                boxShadow: rarity === 'Legendary' ? '0 0 10px #FFD700' : 'none',
+              }}>
+                {title}
+              </div>
+            )}
           </motion.div>
         )
       }
     </motion.div >
   );
+};
+
+const rarityColors = {
+  Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
+  Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
+  Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
+  Legendary: { bg: '#fffbe6', text: '#faad14', border: '#ffe58f' },
 };
 
 const Scribble = () => (
@@ -177,6 +195,10 @@ const styles = {
     border: '1px solid rgba(0, 85, 212, 0.1)',
     boxShadow: '0 4px 10px rgba(0, 85, 212, 0.1)',
     transition: 'all 0.3s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '2px',
   },
   name: {
     fontSize: '0.95rem',
@@ -184,6 +206,15 @@ const styles = {
     color: '#003380',
     whiteSpace: 'nowrap',
     letterSpacing: '0.5px',
+  },
+  badge: {
+    fontSize: '0.7rem',
+    fontWeight: '700',
+    padding: '2px 8px',
+    borderRadius: '10px',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    marginTop: '2px',
   },
 };
 
