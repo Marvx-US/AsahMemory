@@ -29,18 +29,36 @@ const ProfileControls = ({ onJoin }) => {
         <div style={styles.container}>
             <AnimatePresence mode="wait">
                 {!isFormOpen ? (
-                    <motion.button
-                        key="join-btn"
-                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0, 85, 212, 0.4)' }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setIsFormOpen(true)}
-                        style={styles.joinButton}
-                    >
-                        JOIN THE VOID
-                    </motion.button>
+                    <div style={{ display: 'flex', gap: '15px' }}>
+                        <motion.button
+                            key="join-btn"
+                            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0, 85, 212, 0.4)' }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setIsFormOpen(true)}
+                            style={styles.joinButton}
+                        >
+                            JOIN THE VOID
+                        </motion.button>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <a href="/battle" style={{ textDecoration: 'none' }}>
+                                <motion.button
+                                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255, 0, 0, 0.4)' }}
+                                    whileTap={{ scale: 0.95 }}
+                                    style={{ ...styles.joinButton, background: 'rgba(255, 0, 0, 0.2)', border: '1px solid rgba(255, 0, 0, 0.4)', color: '#D40000' }}
+                                >
+                                    ⚔️ BATTLE
+                                </motion.button>
+                            </a>
+                        </motion.div>
+                    </div>
                 ) : (
                     <motion.div
                         key="form-card"

@@ -67,6 +67,9 @@ export default function Home() {
         });
     };
 
+    // Win Streak State
+    const [winStreak, setWinStreak] = useState(0);
+
     useEffect(() => {
         // Initial Fetch
         const fetchExisting = async () => {
@@ -82,6 +85,13 @@ export default function Home() {
         };
 
         fetchExisting();
+
+        // CHECK WIN STREAK
+        const stored = localStorage.getItem('my_champion');
+        if (stored) {
+            const champion = JSON.parse(stored);
+            if (champion.winStreak) setWinStreak(champion.winStreak);
+        }
 
         // --- REALTIME SETUP ---
         // Only run if Supabase is configured in the environment
@@ -203,13 +213,19 @@ export default function Home() {
                 const savedProfile = await response.json();
 
                 // --- TRIGGER GACHA REVEAL ---
-                // Instead of silent update, we show the animation first.
-                // The realtime update might happen in background, but the user sees the overlay.
                 setGachaResult({
                     name: savedProfile.name,
                     title: savedProfile.title,
                     rarity: savedProfile.rarity
                 });
+
+                // SAVE CHAMPION FOR BATTLE MODE (Permadeath System)
+                localStorage.setItem('my_champion', JSON.stringify({
+                    name: savedProfile.name,
+                    title: savedProfile.title,
+                    rarity: savedProfile.rarity,
+                    image: savedProfile.image // Need image for battle
+                }));
 
                 // Add to state is handled by Realtime listener mostly, 
                 // but we can call it here locally too safely due to dedup logic
@@ -305,8 +321,31 @@ export default function Home() {
                         opacity: 0.9
                     }}
                 >
-                    Connecting Digital Souls in the Void ☁️
+                    Connecting Digital Souls in the Void
                 </motion.p>
+
+                {/* WIN STREAK BADGE */}
+                {winStreak > 0 && (
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 200, delay: 1 }}
+                        style={{
+                            marginTop: '20px',
+                            display: 'inline-block',
+                            background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                            padding: '8px 20px',
+                            borderRadius: '20px',
+                            color: '#fff',
+                            fontWeight: 'bold',
+                            fontSize: '1.2rem',
+                            boxShadow: '0 5px 15px rgba(255, 215, 0, 0.4)',
+                            border: '2px solid white'
+                        }}
+                    >
+                        🏆 WIN STREAK: {winStreak}
+                    </motion.div>
+                )}
             </div>
             {/* Profile Detail Modal */}
             <AnimatePresence>
