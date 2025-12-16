@@ -76,6 +76,26 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
         <Scribble />
       </div>
 
+      {/* Legendary Aura */}
+      {rarity === 'Legendary' && (
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '130%',
+            height: '130%',
+            borderRadius: '50%',
+            background: 'conic-gradient(from 0deg, #FF0000, #FF4D4D, #FF0000)',
+            zIndex: -2,
+            filter: 'blur(10px)',
+            opacity: 0.7,
+          }}
+          animate={{ rotate: 360, x: "-50%", y: "-50%" }}
+          transition={{ duration: 3, ease: "linear", repeat: Infinity }}
+        />
+      )}
+
       <div style={{
         ...styles.avatarWrapper,
         width: typeof size === 'number' ? `${size}px` : size,
@@ -118,7 +138,7 @@ const rarityColors = {
   Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
   Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
   Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-  Legendary: { bg: '#fffbe6', text: '#faad14', border: '#ffe58f' },
+  Legendary: { bg: '#FFF0F0', text: '#FF0000', border: '#FF4D4D' },
 };
 
 const Scribble = () => (

@@ -220,7 +220,18 @@ export default function Home() {
                             )}
                         </div>
                         <h2 style={styles.modalName}>{selectedProfile.name}</h2>
-                        <p style={{ color: '#003380', fontSize: '1rem', fontWeight: '500', opacity: 0.8 }}>Exploring the Void</p>
+                        {selectedProfile.title && (
+                            <div style={{
+                                ...styles.modalBadge,
+                                background: rarityColors[selectedProfile.rarity]?.bg || '#eee',
+                                color: rarityColors[selectedProfile.rarity]?.text || '#333',
+                                border: `1px solid ${rarityColors[selectedProfile.rarity]?.border || '#ccc'}`,
+                                boxShadow: selectedProfile.rarity === 'Legendary' ? '0 0 15px #FFD700' : 'none',
+                            }}>
+                                {selectedProfile.title}
+                            </div>
+                        )}
+                        <p style={{ color: '#003380', fontSize: '1rem', fontWeight: '500', opacity: 0.8, marginTop: '10px' }}>Exploring the Void</p>
                         <button style={styles.closeButton} onClick={() => setSelectedProfile(null)}>Close</button>
                     </motion.div>
                 )}
@@ -229,7 +240,17 @@ export default function Home() {
     );
 }
 
+
+
+const rarityColors = {
+    Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
+    Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
+    Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
+    Legendary: { bg: '#FFF0F0', text: '#FF0000', border: '#FF4D4D' },
+};
+
 const styles = {
+    // ... existing styles ...
     backgroundGlow: {
         position: 'fixed',
         width: '100vw',
@@ -330,6 +351,16 @@ const styles = {
         fontFamily: '"Outfit", sans-serif',
         fontWeight: '700',
         letterSpacing: '1px',
+    },
+    modalBadge: {
+        fontSize: '0.9rem',
+        fontWeight: '700',
+        padding: '4px 12px',
+        borderRadius: '12px',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        marginTop: '5px',
+        display: 'inline-block',
     },
     closeButton: {
         marginTop: '30px',
