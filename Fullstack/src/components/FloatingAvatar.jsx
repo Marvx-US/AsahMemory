@@ -25,9 +25,16 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
     return keyframes;
   }, [radiusX, radiusY, startAngle, direction]);
 
+  const [isHovered, setIsHovered] = React.useState(false);
+
   return (
     <motion.div
+      drag
+      dragMomentum={true}
+      dragElastic={0.2}
       onClick={onClick}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
       initial={{ opacity: 0, scale: 0 }}
       animate={{
         opacity: 1,
@@ -36,7 +43,8 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
         top: orbit.top,
         rotate: [0, 5, -5, 0] // Gentle rotation
       }}
-      whileHover={{ scale: 1.2, zIndex: 50, filter: 'brightness(1.1)' }}
+      whileHover={{ scale: 1.2, zIndex: 50, filter: 'brightness(1.1)', cursor: 'grab' }}
+      whileTap={{ cursor: 'grabbing', scale: 1.1 }}
       transition={{
         opacity: { duration: 1 },
         scale: { duration: 1 },
@@ -62,6 +70,11 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
         height: typeof size === 'number' ? `${size}px` : size,
       }}
     >
+      {/* Scribble Effect on Hover */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '150%', height: '150%', pointerEvents: 'none', zIndex: -1, opacity: isHovered ? 1 : 0, transition: 'opacity 0.3s' }}>
+        <Scribble />
+      </div>
+
       <div style={{
         ...styles.avatarWrapper,
         width: typeof size === 'number' ? `${size}px` : size,
@@ -89,6 +102,31 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
   );
 };
 
+const Scribble = () => (
+  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+    <motion.path
+      d="M45.5 98.5C45.5 98.5 25.5 68.5 56.5 49.5C87.5 30.5 130.5 34.5 149.5 59.5C168.5 84.5 158.5 131.5 125.5 152.5C92.5 173.5 45.4999 158.5 35.5 128.5C25.5 98.5 53.5 58.5 91.5 52.5C129.5 46.5 171.5 73.5 178.5 120.5"
+      stroke="#FFD700"
+      strokeWidth="8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      initial={{ pathLength: 0, opacity: 0 }}
+      animate={{ pathLength: 1, opacity: 0.6 }}
+      transition={{ duration: 0.5, ease: "easeInOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 0.5 }}
+    />
+    <motion.path
+      d="M30 100 C 30 100, 50 10, 150 50 C 150 50, 200 150, 100 180 C 100 180, 10 150, 30 100"
+      stroke="#00F2FF"
+      strokeWidth="5" // Thinner secondary line
+      strokeLinecap="round"
+      style={{ opacity: 0.4 }}
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.7, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+    />
+  </svg>
+);
+
 const styles = {
   container: {
     position: 'absolute',
@@ -97,7 +135,7 @@ const styles = {
     alignItems: 'center',
     zIndex: 5,
     cursor: 'pointer',
-    pointerEvents: 'auto',
+    pointerEvents: 'auto', // Important for drag
   },
   avatarWrapper: {
     borderRadius: '50%',
