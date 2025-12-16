@@ -40,7 +40,7 @@ const ProfileControls = ({ onJoin }) => {
 
                 <input
                     type="text"
-                    placeholder="Enter Callsign"
+                    placeholder="Enter Call sign"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     style={styles.input}

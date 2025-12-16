@@ -17,7 +17,11 @@ export default function Home() {
                 const response = await fetch('/api/profiles');
                 if (response.ok) {
                     const data = await response.json();
-                    setProfiles(data);
+                    // Filter avatars older than 10 minutes
+                    const TEN_MINUTES = 10 * 60 * 1000;
+                    const now = Date.now();
+                    const filteredData = data.filter(profile => (now - profile.id) < TEN_MINUTES);
+                    setProfiles(filteredData);
                 }
             } catch (error) {
                 console.error("Failed to fetch profiles:", error);
