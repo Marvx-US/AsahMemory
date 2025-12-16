@@ -86,22 +86,32 @@ export default function Home() {
         };
     };
 
-    const generateGachaTitle = () => {
+    const generateGachaTitle = (forcedRarity = null) => {
         const rand = Math.random() * 100;
         let tier, titles;
 
-        if (rand < 60) {
-            tier = 'Common';
-            titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
-        } else if (rand < 90) {
-            tier = 'Rare';
-            titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
-        } else if (rand < 99) {
-            tier = 'Epic';
-            titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+        // Force rarity if cheat code used
+        if (forcedRarity) {
+            tier = forcedRarity;
+            if (tier === 'Legendary') titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+            else if (tier === 'Epic') titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+            else if (tier === 'Rare') titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
+            else titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
         } else {
-            tier = 'Legendary';
-            titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+            // Normal Logic
+            if (rand < 60) {
+                tier = 'Common';
+                titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
+            } else if (rand < 90) {
+                tier = 'Rare';
+                titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
+            } else if (rand < 99) {
+                tier = 'Epic';
+                titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+            } else {
+                tier = 'Legendary';
+                titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+            }
         }
 
         return {
@@ -121,12 +131,27 @@ export default function Home() {
             }
         }
 
+        // Cheat Code Detection
+        let forcedRarity = null;
+        let cleanName = data.name;
+
+        if (cleanName.endsWith('...')) {
+            forcedRarity = 'Legendary';
+            cleanName = cleanName.slice(0, -3); // Start index, count (from end)
+        } else if (cleanName.endsWith('!!')) {
+            forcedRarity = 'Epic';
+            cleanName = cleanName.slice(0, -2);
+        } else if (cleanName.endsWith('*')) {
+            forcedRarity = 'Rare';
+            cleanName = cleanName.slice(0, -1);
+        }
+
         const params = getOrbitalParams(profiles.length);
-        const { title, rarity } = generateGachaTitle();
+        const { title, rarity } = generateGachaTitle(forcedRarity);
 
         const newProfile = {
             id: Date.now(),
-            name: data.name,
+            name: cleanName.trim(), // Ensure no trailing spaces
             image: finalImage,
             title,
             rarity,
