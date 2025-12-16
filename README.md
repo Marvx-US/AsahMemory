@@ -12,6 +12,7 @@
 *   **🖱️ Interaktif & Imersif**: Klik avatar untuk melihat kartu identitas "Pop-up" dengan efek *backdrop blur* yang modern.
 *   **📱 Responsif Sempurna**: Didesain agar terlihat memukau baik di Layar Lebar (Desktop) maupun Layar Sentuh (Mobile).
 *   **💾 Dual Integrasi Database**: Mendukung penyimpanan file lokal (untuk offline/dev) dan **Supabase** (untuk cloud production) secara otomatis.
+*   **⏳ Auto-Expiry System**: Demi efisiensi dan privasi, profil avatar akan **otomatis menghilang dan terhapus** dari database setelah 30 menit.
 *   **🎨 Glassmorphism UI**: Antarmuka transparan, bersih, dan futuristik.
 
 ---

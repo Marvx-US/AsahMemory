@@ -18,7 +18,7 @@ export default function Home() {
                 if (response.ok) {
                     const data = await response.json();
                     // Filter avatars older than 10 minutes
-                    const TEN_MINUTES = 10 * 60 * 1000;
+                    const TEN_MINUTES = 30 * 60 * 1000;
                     const now = Date.now();
                     const filteredData = data.filter(profile => (now - profile.id) < TEN_MINUTES);
                     setProfiles(filteredData);

@@ -39,30 +39,59 @@ const writeLocalData = (data) => {
 // --- Main API Handlers ---
 
 export async function GET() {
+    const TEN_MINUTES = 10 * 60 * 1000;
+    const now = Date.now();
+
     if (isSupabaseConfigured()) {
         try {
-            // Fetch from Supabase
+            // Fetch from Supabase including the row ID for deletion
             const { data, error } = await supabase
                 .from('profiles')
-                .select('content')
-                .order('id', { ascending: true }); // Ordering by ID assumes auto-increment
+                .select('id, content')
+                .order('id', { ascending: true });
 
             if (error) throw error;
 
-            // Extract the 'content' field which holds the actual profile object
-            const profiles = data.map(row => row.content);
-            return NextResponse.json(profiles);
+            const validProfiles = [];
+            const idsToDelete = [];
+
+            data.forEach(row => {
+                const profile = row.content;
+                // Check if profile is expired
+                if (now - profile.id > TEN_MINUTES) {
+                    idsToDelete.push(row.id);
+                } else {
+                    validProfiles.push(profile);
+                }
+            });
+
+            // Perform cleanup if needed
+            if (idsToDelete.length > 0) {
+                // We don't need to await this to block the response, but for data consistency it's better to verify logic
+                // Fire and forget usually fine, but let's await to be sure
+                await supabase.from('profiles').delete().in('id', idsToDelete);
+                console.log(`Cleaned up ${idsToDelete.length} expired profiles from Supabase.`);
+            }
+
+            return NextResponse.json(validProfiles);
         } catch (error) {
             console.error("Supabase Fetch Error:", error.message);
-            // Fallback to local if Supabase fails? Or just return error?
-            // For now, let's fallback to empty array or error to avoid confusion
             return NextResponse.json({ error: 'Failed to fetch from Database' }, { status: 500 });
         }
     } else {
         // Local File Fallback
         console.log("Supabase not configured. Using local file.");
         const profiles = readLocalData();
-        return NextResponse.json(profiles);
+
+        const validProfiles = profiles.filter(profile => (now - profile.id) < TEN_MINUTES);
+
+        // If cleanup happened, save the file
+        if (validProfiles.length < profiles.length) {
+            console.log(`Cleaned up ${profiles.length - validProfiles.length} expired profiles from local file.`);
+            writeLocalData(validProfiles);
+        }
+
+        return NextResponse.json(validProfiles);
     }
 }
 
