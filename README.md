@@ -39,7 +39,7 @@ pie title Probability Distribution
 | **⚪ Common** | 50% | *Kerja Tanpa Riuh, Anak Baik* | Badge Abu-abu |
 | **🔵 Rare** | 24% | *Penambal Lubang, Pekerja Bayangan* | Badge Biru + Glow |
 | **🟣 Epic** | 19% | *Satu Orang Banyak Peran, Fullstack Dipaksa* | Badge Ungu + Neon |
-| **💗 Pink** | 6% | *Queen of Logic, UI/UX Goddess* | **Badge Pink + Aura Cinta (<3)** |
+| **💗 Pink** | 6% | *Queen of Logic, UI/UX Goddess* | **Badge Pink + Aura Cinta** |
 | **🔴 LEGENDARY** | **1%** | ***Tiang Penyangga Kelompok, Penggendong Handal*** | **Aura Merah Berputar & Emas** |
 
 ---
