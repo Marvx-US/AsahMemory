@@ -8,12 +8,13 @@
 
 ## ✨ Fitur Utama
 
-*   **🪐 Dynamic Orbit System**: Profil teman-teman tidak hanya diam, tetapi mengorbit mengelilingi pusat halaman dengan animasi yang halus dan realistis.
-*   **🖱️ Interaktif & Imersif**: Klik avatar untuk melihat kartu identitas "Pop-up" dengan efek *backdrop blur* yang modern.
+*   **🎲 Gacha Fate System**: Saat bergabung, nasib coding Anda diundi! Dapatkan gelar lucu mulai dari *Common* ("Lupa Titik Koma") hingga *Legendary* ("Tiang Penyangga Kelompok") dengan aura warna-warni.
+*   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik.
+*   **⏰ Daily Reset Protocol**: "Dunia" ini akan otomatis mereset diri setiap hari pukul **01:00 WIB**, menghapus semua jejak hari kemarin agar selalu segar setiap pagi.
+*   **🎨 Dynamic Visuals**: Font 'Permanent Marker', efek coretan krayon biru saat hover, dan **Aura Merah Berputar** khusus untuk gelar Legendary.
 *   **📱 Responsif Sempurna**: Didesain agar terlihat memukau baik di Layar Lebar (Desktop) maupun Layar Sentuh (Mobile).
-*   **💾 Dual Integrasi Database**: Mendukung penyimpanan file lokal (untuk offline/dev) dan **Supabase** (untuk cloud production) secara otomatis.
-*   **⏳ Auto-Expiry System**: Demi efisiensi dan privasi, profil avatar akan **otomatis menghilang dan terhapus** dari database setelah 30 menit.
-*   **🎨 Glassmorphism UI**: Antarmuka transparan, bersih, dan futuristik.
+*   **🪐 Dynamic Orbit System**: Profil teman-teman mengorbit dengan pola yang unik dan tidak membosankan.
+*   **💾 Hybrid Database**: Mendukung fallback lokal dan integrasi Supabase otomatis.
 
 ---
 
