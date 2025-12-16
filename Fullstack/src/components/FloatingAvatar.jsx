@@ -78,21 +78,26 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
 
       {/* Legendary Aura (Red Scribble Rotating) */}
       {rarity === 'Legendary' && (
-        <motion.div
+        <div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            width: '160%',
-            height: '160%',
+            transform: 'translate(-50%, -50%)',
+            width: '180%', // Slightly larger to clear avatar
+            height: '180%',
             zIndex: -1,
             pointerEvents: 'none',
           }}
-          animate={{ rotate: 360, x: "-50%", y: "-50%" }}
-          transition={{ duration: 8, ease: "linear", repeat: Infinity }}
         >
-          <Scribble color="#FF0000" opacity={0.8} />
-        </motion.div>
+          <motion.div
+            style={{ width: '100%', height: '100%' }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity }}
+          >
+            <Scribble color="#FF0000" opacity={0.8} />
+          </motion.div>
+        </div>
       )}
 
       <div style={{
@@ -122,7 +127,8 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
                 background: rarityColors[rarity]?.bg || '#eee',
                 color: rarityColors[rarity]?.text || '#333',
                 border: `1px solid ${rarityColors[rarity]?.border || '#ccc'}`,
-                boxShadow: rarity === 'Legendary' ? '0 0 15px #FF0000' : 'none', // Stronger Red Glow
+                boxShadow: rarity === 'Legendary' ? '0 0 15px #FF0000' : 'none',
+                whiteSpace: 'nowrap', // Prevent wrapping
               }}>
                 {title}
               </div>
@@ -138,7 +144,7 @@ const rarityColors = {
   Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
   Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
   Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-  Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG for contrast
+  Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG
 };
 
 const Scribble = ({ color = "#0055D4", opacity = 0.6 }) => (
