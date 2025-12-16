@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, 'server_profiles.json');
 
 app.use(cors());
@@ -58,4 +58,13 @@ app.post('/api/profiles', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+});
+
+// Serve static files from the frontend dist directory
+const FRONTEND_DIST = path.join(__dirname, '../frontend/dist');
+app.use(express.static(FRONTEND_DIST));
+
+// Handle client-side routing by returning index.html for all non-API routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
 });

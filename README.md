@@ -68,6 +68,29 @@ Untuk melihat fitur multiplayer:
 
 ---
 
+## 🏭 Mode Produksi (Satu Perintah)
+
+Untuk menjalankan aplikasi dalam mode produksi (lebih cepat dan stabil), Anda dapat menjalankannya langsung dari folder utama (root) tanpa perlu membuka dua terminal.
+
+### 1. Instalasi Semua Dependensi
+Jalankan perintah ini sekali saja di awal:
+```bash
+npm run install-all
+```
+
+### 2. Jalankan Aplikasi
+Gunakan perintah ini untuk mem-build frontend dan menjalankan server sekaligus:
+```bash
+npm run prod
+```
+Aplikasi akan berjalan di `http://localhost:3001` (atau port yang Anda tentukan).
+Untuk development dengan dua terminal dalam satu perintah, gunakan:
+```bash
+npm run dev
+```
+
+---
+
 ## 📂 Struktur Folder Baru
 
 ```text
