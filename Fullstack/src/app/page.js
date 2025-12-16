@@ -4,74 +4,109 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import FloatingAvatar from '../components/FloatingAvatar';
 import ProfileControls from '../components/ProfileControls';
-import BackgroundDecorations from '../components/BackgroundDecorations';
+import { supabase, isSupabaseConfigured } from '../lib/supabase'; // Import supabase and helper
 
 export default function Home() {
     const [profiles, setProfiles] = useState([]);
     const [selectedProfile, setSelectedProfile] = useState(null);
     const constraintsRef = useRef(null);
 
+    // Helper to merge new profiles efficiently with Smart Filtering
+    // Defined outside effect to be used by both Polling (fallback) and Realtime
+    const handleNewProfiles = (currentProfiles, incomingProfiles) => {
+        // 1. Identify truly new items (avoid duplicates by ID)
+        const currentIds = new Set(currentProfiles.map(p => p.id));
+        const uniqueIncoming = incomingProfiles.filter(p => !currentIds.has(p.id));
+
+        if (uniqueIncoming.length === 0 && incomingProfiles.length > 0) {
+            // If incomingProfiles exist but none are unique, it means we're just re-fetching existing data.
+            // In this case, we might want to re-apply filtering or just return currentProfiles if no changes.
+            // For now, if no new unique items, just return current.
+            return currentProfiles;
+        }
+
+        // 2. Combine and Filter
+        const allProfiles = [...currentProfiles, ...uniqueIncoming];
+
+        // --- SMART FILTERING ---
+        const vips = allProfiles.filter(p => p.rarity === 'Legendary' || p.rarity === 'Pink');
+        const commons = allProfiles.filter(p => p.rarity !== 'Legendary' && p.rarity !== 'Pink');
+
+        // Sort Normals by ID (newest first)
+        commons.sort((a, b) => b.id - a.id);
+
+        const MAX_DISPLAY = 50;
+        const slotsLeft = Math.max(0, MAX_DISPLAY - vips.length);
+        const visibleCommons = commons.slice(0, slotsLeft);
+
+        const combined = [...vips, ...visibleCommons];
+
+        // 3. Process Floating Params (Preserve existing or generate new)
+        return combined.map(newProfile => {
+            // If profile already counts as "new schema" (has top/left), use it directly.
+            if (newProfile.top && newProfile.left) return newProfile;
+
+            // If it's legacy data (missing top/left), check if we already generated params for it.
+            const existing = currentProfiles.find(p => p.id === newProfile.id);
+            if (existing && existing.top && existing.left) {
+                // Preserve the locally generated params so it doesn't jump
+                return {
+                    ...newProfile,
+                    top: existing.top,
+                    left: existing.left,
+                    duration: existing.duration,
+                    delay: existing.delay
+                };
+            }
+
+            // If it's legacy and seen for the first time, generate params.
+            return { ...newProfile, ...getFloatingParams() };
+        });
+    };
+
     useEffect(() => {
-        const fetchProfiles = async () => {
+        // Initial Fetch
+        const fetchExisting = async () => {
             try {
-                // Changed to relative URL for Next.js API Route
                 const response = await fetch('/api/profiles');
                 if (response.ok) {
                     const data = await response.json();
-
-                    setProfiles(prevProfiles => {
-                        // --- SMART FILTERING (Optimization) ---
-                        // Goal: Limit total to 50 to prevent lag, BUT protect VIPs (Legendary/Pink).
-
-                        // 1. Separate VIPs and Normals
-                        const vips = data.filter(p => p.rarity === 'Legendary' || p.rarity === 'Pink');
-                        const commons = data.filter(p => p.rarity !== 'Legendary' && p.rarity !== 'Pink');
-
-                        // 2. Sort Normals by ID (newest first)
-                        commons.sort((a, b) => b.id - a.id);
-
-                        // 3. Calculate remaining slots
-                        const MAX_DISPLAY = 50;
-                        const slotsLeft = Math.max(0, MAX_DISPLAY - vips.length);
-
-                        // 4. Take newest commons to fill slots
-                        const visibleCommons = commons.slice(0, slotsLeft);
-
-                        // 5. Combine and process for floating params
-                        const combined = [...vips, ...visibleCommons];
-
-                        return combined.map(newProfile => {
-                            // 1. If profile already counts as "new schema" (has top/left), use it directly.
-                            if (newProfile.top && newProfile.left) return newProfile;
-
-                            // 2. If it's legacy data (missing top/left), check if we already generated params for it.
-                            const existing = prevProfiles.find(p => p.id === newProfile.id);
-                            if (existing && existing.top && existing.left) {
-                                // Preserve the locally generated params so it doesn't jump
-                                return {
-                                    ...newProfile,
-                                    top: existing.top,
-                                    left: existing.left,
-                                    duration: existing.duration,
-                                    delay: existing.delay
-                                };
-                            }
-
-                            // 3. If it's legacy and seen for the first time, generate params.
-                            return { ...newProfile, ...getFloatingParams() };
-                        });
-                    });
+                    setProfiles(prev => handleNewProfiles(prev, data));
                 }
             } catch (error) {
-                console.error("Failed to fetch profiles:", error);
+                console.error("Fetch error:", error);
             }
         };
 
-        fetchProfiles();
+        fetchExisting();
 
-        // Poll for updates every 5 seconds
-        const interval = setInterval(fetchProfiles, 5000);
-        return () => clearInterval(interval);
+        // --- REALTIME SETUP ---
+        // Only run if Supabase is configured in the environment
+        let realtimeChannel = null;
+        let pollingInterval = null;
+
+        if (isSupabaseConfigured()) {
+            console.log("🔌 Connecting to Supabase Realtime...");
+            realtimeChannel = supabase
+                .channel('realtime_profiles')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'profiles' }, (payload) => {
+                    const newProfile = payload.new.content; // Extract JSON content
+                    // Update state using functional update to access latest state
+                    setProfiles(prev => handleNewProfiles(prev, [newProfile]));
+                })
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') console.log("✅ Realtime Connected!");
+                });
+        } else {
+            console.log("⚠️ Supabase not configured. Using Polling Fallback.");
+            pollingInterval = setInterval(fetchExisting, 5000);
+        }
+
+        // Cleanup
+        return () => {
+            if (realtimeChannel) supabase.removeChannel(realtimeChannel);
+            if (pollingInterval) clearInterval(pollingInterval);
+        };
     }, []);
 
     // Helper to compress image
@@ -155,9 +190,15 @@ export default function Home() {
             });
 
             if (response.ok) {
+                // With Realtime, we technically don't need to do anything if connected.
+                // The INSERT event will trigger and update the state.
+                // However, for immediate feedback (optimistic), we can simulate it.
+                // BUT, to avoid "double appearance" (optimistic + realtime), it's often safer to just wait for Realtime
+                // OR duplicate check handling in handleNewProfiles handles it.
+
+                // Let's rely on handleNewProfiles deduping logic.
                 const savedProfile = await response.json();
-                // Update state with the TRUE profile from server (contains generated title/rarity)
-                setProfiles([...profiles, savedProfile]);
+                setProfiles(prev => handleNewProfiles(prev, [savedProfile]));
             }
         } catch (error) {
             console.error("Failed to save profile:", error);
