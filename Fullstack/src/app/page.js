@@ -246,7 +246,7 @@ const rarityColors = {
     Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
     Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
     Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-    Legendary: { bg: '#FFF0F0', text: '#FF0000', border: '#FF4D4D' },
+    Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG
 };
 
 const styles = {

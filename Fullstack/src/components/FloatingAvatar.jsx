@@ -76,24 +76,23 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
         <Scribble />
       </div>
 
-      {/* Legendary Aura */}
+      {/* Legendary Aura (Red Scribble Rotating) */}
       {rarity === 'Legendary' && (
         <motion.div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            width: '130%',
-            height: '130%',
-            borderRadius: '50%',
-            background: 'conic-gradient(from 0deg, #FF0000, #FF4D4D, #FF0000)',
-            zIndex: -2,
-            filter: 'blur(10px)',
-            opacity: 0.7,
+            width: '160%',
+            height: '160%',
+            zIndex: -1,
+            pointerEvents: 'none',
           }}
           animate={{ rotate: 360, x: "-50%", y: "-50%" }}
-          transition={{ duration: 3, ease: "linear", repeat: Infinity }}
-        />
+          transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+        >
+          <Scribble color="#FF0000" opacity={0.8} />
+        </motion.div>
       )}
 
       <div style={{
@@ -109,6 +108,7 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
           )}
         </div>
       </div>
+
       {
         name && (
           <motion.div
@@ -122,7 +122,7 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
                 background: rarityColors[rarity]?.bg || '#eee',
                 color: rarityColors[rarity]?.text || '#333',
                 border: `1px solid ${rarityColors[rarity]?.border || '#ccc'}`,
-                boxShadow: rarity === 'Legendary' ? '0 0 10px #FFD700' : 'none',
+                boxShadow: rarity === 'Legendary' ? '0 0 15px #FF0000' : 'none', // Stronger Red Glow
               }}>
                 {title}
               </div>
@@ -138,24 +138,24 @@ const rarityColors = {
   Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
   Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
   Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-  Legendary: { bg: '#FFF0F0', text: '#FF0000', border: '#FF4D4D' },
+  Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG for contrast
 };
 
-const Scribble = () => (
+const Scribble = ({ color = "#0055D4", opacity = 0.6 }) => (
   <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
     <motion.path
       d="M45.5 98.5C45.5 98.5 25.5 68.5 56.5 49.5C87.5 30.5 130.5 34.5 149.5 59.5C168.5 84.5 158.5 131.5 125.5 152.5C92.5 173.5 45.4999 158.5 35.5 128.5C25.5 98.5 53.5 58.5 91.5 52.5C129.5 46.5 171.5 73.5 178.5 120.5"
-      stroke="#0055D4"
+      stroke={color}
       strokeWidth="8"
       strokeLinecap="round"
       strokeLinejoin="round"
       initial={{ pathLength: 0, opacity: 0 }}
-      animate={{ pathLength: 1, opacity: 0.6 }}
+      animate={{ pathLength: 1, opacity: opacity }}
       transition={{ duration: 0.5, ease: "easeInOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 0.5 }}
     />
     <motion.path
       d="M30 100 C 30 100, 50 10, 150 50 C 150 50, 200 150, 100 180 C 100 180, 10 150, 30 100"
-      stroke="#00F2FF"
+      stroke={color === "#0055D4" ? "#00F2FF" : "#FF6B6B"} // Secondary color automatic
       strokeWidth="5" // Thinner secondary line
       strokeLinecap="round"
       style={{ opacity: 0.4 }}

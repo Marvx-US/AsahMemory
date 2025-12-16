@@ -1,26 +1,75 @@
 # 🌌 Asah Memory 2025
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Next.js](https://img.shields.io/badge/Next.js-15-black) ![Tailwind](https://img.shields.io/badge/Style-Glassmorphism-cyan)
+```text
+    _    ____    _    _   _    __  __ _____ __  __  ___  ____  _   _ 
+   / \  / ___|  / \  | | | |  |  \/  | ____|  \/  |/ _ \|  _ \| | | |
+  / _ \ \___ \ / _ \ | |_| |  | |\/| |  _| | |\/| | | | | |_) | |_| |
+ / ___ \ ___) / ___ \|  _  |  | |  | | |___| |  | | |_| |  _ <|  _  |
+/_/   \_\____/_/   \_\_| |_|  |_|  |_|_____|_|  |_|\___/|_| \_\_| |_|
+                                               EST. 2025 • DIGITAL VOID
+```
 
-**Selamat datang di Asah Memory 2025** — sebuah platform web interaktif yang dirancang untuk mengabadikan momen kebersamaan dalam bentuk galeri digital yang hidup dan dinamis. Project ini dibangun dengan sentuhan estetika modern "Glassmorphism" yang elegan, di mana profil pengguna mengorbit layaknya benda angkasa.
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge) ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge) ![Tailwind](https://img.shields.io/badge/Style-Glassmorphism-cyan?style=for-the-badge) ![Rarity-Legendary](https://img.shields.io/badge/Rarity-LEGENDARY-red?style=for-the-badge)
+
+**Selamat datang di Digital Void** — Tempat di mana jiwa-jiwa digital bertemu, terhubung, dan menghilang. Asah Memory bukan sekadar galeri, ini adalah *sandbox interaktif* antariksa. Profil teman-temanmu tidak diam; mereka melayang, memantul, dan hidup dalam orbit abadi (setidaknya sampai jam 1 pagi).
+
+---
+
+## ✨ Fitur Utama (The Features)
+
+*   **🎲 Gacha Fate System**: Saat bergabung, nasib coding Anda diundi! Dapatkan gelar lucu mulai dari *Common* hingga *Legendary* dengan aura khusus.
+*   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik. (Try throwing them!).
+*   **⏰ Protocol: ZERO HOUR**: Tepat pukul **01:00 WIB**, "Kiamat Kecil" terjadi. Semua avatar dihapus. Void kembali bersih. Kenangan hari itu menjadi sejarah.
+*   **🎨 Dynamic Visuals**: Font 'Permanent Marker', efek coretan krayon, dan **Aura Merah Berputar** yang mengintimidasi untuk para *Legends*.
+*   **📱 Responsif Sempurna**: Indah di Desktop, Nyaman di Mobile.
+
+### 🏆 Daftar Gelar & Probabilitas
+
+Nasibmu ditentukan oleh algoritma. Siapakah kamu sebenarnya?
+
+```mermaid
+pie title Probability Distribution
+    "Common (Anak Baik)" : 60
+    "Rare (Pekerja Bayangan)" : 30
+    "Epic (Fullstack Dipaksa)" : 9
+    "LEGENDARY (Tiang Penyangga)" : 1
+```
+
+| Rarity | Chance | Contoh Gelar | Efek Visual |
+| :--- | :---: | :--- | :--- |
+| **⚪ Common** | 60% | *Kerja Tanpa Riuh, Anak Baik* | Badge Abu-abu |
+| **🔵 Rare** | 30% | *Penambal Lubang, Pekerja Bayangan* | Badge Biru + Glow |
+| **🟣 Epic** | 9% | *Satu Orang Banyak Peran, Fullstack Dipaksa* | Badge Ungu + Neon |
+| **🔴 LEGENDARY** | **1%** | ***Tiang Penyangga Kelompok, Penggendong Handal*** | **Aura Merah Berputar & Emas** |
 
 ---
 
-## ✨ Fitur Utama
-
-*   **🎲 Gacha Fate System**: Saat bergabung, nasib coding Anda diundi! Dapatkan gelar lucu mulai dari *Common* ("Lupa Titik Koma") hingga *Legendary* ("Tiang Penyangga Kelompok") dengan aura warna-warni.
-*   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik.
-*   **⏰ Daily Reset Protocol**: "Dunia" ini akan otomatis mereset diri setiap hari pukul **01:00 WIB**, menghapus semua jejak hari kemarin agar selalu segar setiap pagi.
-*   **🎨 Dynamic Visuals**: Font 'Permanent Marker', efek coretan krayon biru saat hover, dan **Aura Merah Berputar** khusus untuk gelar Legendary.
-*   **📱 Responsif Sempurna**: Didesain agar terlihat memukau baik di Layar Lebar (Desktop) maupun Layar Sentuh (Mobile).
-*   **🪐 Dynamic Orbit System**: Profil teman-teman mengorbit dengan pola yang unik dan tidak membosankan.
-*   **💾 Hybrid Database**: Mendukung fallback lokal dan integrasi Supabase otomatis.
-
----
 
 ## 🛠️ Teknologi
 
-Project ini dibangun menggunakan teknologi web modern untuk performa dan pengalaman pengembang terbaik:
+---
+
+## 🛠️ Arsitektur Sistem (Visualized)
+
+Bagaimana cara kerjanya?
+
+```mermaid
+graph TD
+    User[👤 User / Frontend] -->|Interactive Drag & Gacha| NextJS[⚛️ Next.js 15 App]
+    NextJS -->|API Route| API[🛡️ Backend Logic]
+    
+    subgraph "Data Layer"
+        API -->|Check Config| Switch{Supabase Configured?}
+        Switch -->|Yes| DB[(☁️ Supabase Cloud)]
+        Switch -->|No| Local[(📂 Local JSON)]
+    end
+    
+    subgraph "Auto-Reset Protocol"
+        Cron[⏰ Scheduler] -->|01:00 WIB| API
+        API -->|DELETE| DB
+        API -->|DELETE| Local
+    end
+```
 
 *   **[Next.js 15](https://nextjs.org/)**: Framework React utama (App Router).
 *   **[React 19](https://react.dev/)**: Library UI.
@@ -29,12 +78,49 @@ Project ini dibangun menggunakan teknologi web modern untuk performa dan pengala
 
 ---
 
+## 🔄 Siklus Hidup Avatar (The Loop)
+
+```mermaid
+stateDiagram-v2
+    [*] --> Gacha: User Joins
+    Gacha --> Common: 60% Chance
+    Gacha --> Rare: 30% Chance
+    Gacha --> Epic: 9% Chance
+    Gacha --> LEGENDARY: 1% Chance
+    
+    state "Floating in Void" as Float
+    Common --> Float
+    Rare --> Float
+    Epic --> Float
+    LEGENDARY --> Float
+    
+    Float --> ZeroHour: Waiting...
+    
+    state "☠️ ZERO HOUR (01:00 WIB)" as ZeroHour
+    ZeroHour --> [*]: DELETED (Reset)
+```
+
 ## 🚀 Panduan Instalasi (Lokal)
 
 Ingin menjalankan project ini di komputer Anda sendiri? Ikuti langkah mudah ini:
 
 ### 1. Prasyarat
 Pastikan Anda sudah menginstall [Node.js](https://nodejs.org/) (Versi 18 LTS atau terbaru).
+
+---
+
+## 🎮 Controls & Interactions
+
+Cara bermain di sandbox ini:
+
+| Action | Icon | Effect |
+| :--- | :---: | :--- |
+| **Hover** | 👆 | **Scan Identity** (Melihat Title & Aura) |
+| **Click** | 🖱️ | **Open Detail** (Pop-up Kartu Identitas) |
+| **Drag** | ✊ | **Throw Avatar** (Lempar Fisika!) |
+| **Wait** | ⏳ | **Observe Orbit** (Lihat rotasi alami) |
+
+---
 
 ### 2. Instalasi & Jalankan
 Buka terminal di folder project dan jalankan perintah:
@@ -51,9 +137,24 @@ Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
 
 ---
 
-## ☁️ Panduan Deployment (Online)
+## ☁️ Panduan Deployment (Visualized)
 
-Project ini didesain agar "Vercel-Ready". Untuk meng-online-kan website:
+Langkah mudah menuju awan:
+
+```mermaid
+sequenceDiagram
+    participant Dev as 👨‍💻 Developer
+    participant GitHub as 🐙 GitHub
+    participant Vercel as ▲ Vercel
+    participant Supabase as ⚡ Supabase
+
+    Dev->>GitHub: Git Push (main)
+    GitHub->>Vercel: Trigger Webhook
+    Vercel->>Vercel: Build Next.js App
+    Vercel->>Supabase: Connect DB (Env Vars)
+    Supabase-->>Vercel: Connection OK
+    Vercel-->>Dev: Deployment Success (URL)
+```
 
 ### 1. Push ke GitHub
 Upload kode ini ke repository GitHub Anda.
@@ -102,5 +203,5 @@ Konsep atau ide baru? Silakan fork repository ini dan kirimkan Pull Request!
 
 ## 📝 Lisensi
 
-Dibuat dengan ❤️ untuk **Teman-teman Asah**.
+Dibuat dengan Cinta dan malam untuk **Teman-teman Asah**.
 Dilindungi di bawah lisensi [MIT](LICENSE).
