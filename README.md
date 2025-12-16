@@ -7,203 +7,113 @@
                                                EST. 2025 • DIGITAL VOID
 ```
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge) ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge) ![Tailwind](https://img.shields.io/badge/Style-Glassmorphism-cyan?style=for-the-badge) ![Rarity-Legendary](https://img.shields.io/badge/Rarity-LEGENDARY-red?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge) ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge) ![Supabase](https://img.shields.io/badge/Supabase-Realtime-green?style=for-the-badge) ![PVP](https://img.shields.io/badge/Battle-CINEMATIC-red?style=for-the-badge)
 
-**Selamat datang di Digital Void** — Tempat di mana jiwa-jiwa digital bertemu, terhubung, dan menghilang. Asah Memory bukan sekadar galeri, ini adalah *sandbox interaktif* antariksa. Profil teman-temanmu tidak diam; mereka melayang, memantul, dan hidup dalam orbit abadi (setidaknya sampai jam 1 pagi).
+**Selamat datang di Digital Void** — Tempat di mana jiwa-jiwa digital bertemu, terhubung, dan bertarung. Asah Memory bukan sekadar galeri, ini adalah *interactive playground* coding. Profil teman-temanmu tidak diam; mereka melayang, bertarung, dan hidup dalam orbit abadi (setidaknya sampai jam 1 pagi).
 
 ---
 
 ## ✨ Fitur Utama (The Features)
 
-*   **🎲 Gacha Fate System**: Saat bergabung, nasib coding Anda diundi! Dapatkan gelar lucu mulai dari *Common* hingga *Legendary* dengan aura khusus.
-*   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik. (Try throwing them!).
-*   **⏰ Protocol: ZERO HOUR**: Tepat pukul **01:00 WIB**, "Kiamat Kecil" terjadi. Semua avatar dihapus. Void kembali bersih. Kenangan hari itu menjadi sejarah.
-*   **🎨 Dynamic Visuals**: Font 'Permanent Marker', efek coretan krayon, dan **Aura Merah Berputar** yang mengintimidasi untuk para *Legends*.
-*   **📱 Responsif Sempurna**: Indah di Desktop, Nyaman di Mobile.
+### 1. 🌌 The Void (Floating Lobby)
+*   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik.
+*   **🎲 Gacha Fate System**: Nasib coding Anda diundi! Dapatkan gelar lucu dengan visual unik.
+*   **🏆 Win Streak Badge**: Jika Champion Anda menang berturut-turut, lencananya akan bersinar di layar utama.
 
-### 🏆 Daftar Gelar & Probabilitas
+### 2. ⚔️ Cinematic PVP Arena
+*   **🎬 Visual Battle**: Bukan cuma teks! Saksikan avatar Anda melakukan **Lunge Attack**, efek **Screen Shake**, dan **Floating Damage Numbers**.
+*   **🔗 Host-Authoritative Sync**: Tidak ada lagi *"di layarku menang, di layarmu kalah"*. Host menghitung RNG, hasilnya dikirim real-time ke lawan.
+*   **☠️ Permadeath**: Kalah battle? Champion Anda **HANCUR** (Dihapus dari localStorage). Gacha ulang dari nol.
 
-Nasibmu ditentukan oleh algoritma. Siapakah kamu sebenarnya?
-
-```mermaid
-pie title Probability Distribution
-    "Common (Anak Baik)" : 50
-    "Rare (Pekerja Bayangan)" : 24
-    "Epic (Fullstack Dipaksa)" : 19
-    "Pink (Queen of Logic)" : 6
-    "LEGENDARY (Tiang Penyangga)" : 1
-```
-
-| Rarity | Chance | Contoh Gelar | Efek Visual |
-| :--- | :---: | :--- | :--- |
-| **⚪ Common** | 50% | *Kerja Tanpa Riuh, Anak Baik* | Badge Abu-abu |
-| **🔵 Rare** | 24% | *Penambal Lubang, Pekerja Bayangan* | Badge Biru + Glow |
-| **🟣 Epic** | 19% | *Satu Orang Banyak Peran, Fullstack Dipaksa* | Badge Ungu + Neon |
-| **💗 Pink** | 6% | *Queen of Logic, UI/UX Goddess* | **Badge Pink + Aura Cinta** |
-| **🔴 LEGENDARY** | **1%** | ***Tiang Penyangga Kelompok, Penggendong Handal*** | **Aura Merah Berputar & Emas** |
+### 3. ⏰ Protocol: ZERO HOUR
+*   Tepat pukul **01:00 WIB**, "Kiamat Kecil" terjadi. Semua avatar dihapus. Void kembali bersih. Kenangan hari itu menjadi sejarah.
 
 ---
 
+## 🎲 Sistem Gacha & Rarity
 
-## 🛠️ Teknologi
+Nasibmu ditentukan oleh algoritma. Siapakah kamu sebenarnya dalam hierarki kode?
+
+| Rarity | Chance | Contoh Gelar | Visual Effect |
+| :--- | :---: | :--- | :--- |
+| **⚪ Common** | 50% | *Anak Baik, NPC* | Badge Abu-abu |
+| **🔵 Rare** | 24% | *Penambal Lubang, Debugger* | Badge Biru + Glow |
+| **🟣 Epic** | 19% | *Fullstack Dipaksa* | Badge Ungu + Neon |
+| **💗 Pink** | 6% | *Queen of Logic* | **Badge Pink + Aura Cinta** |
+| **🔴 LEGENDARY** | **1%** | ***Tiang Penyangga*** | **Aura Emas Berputar & Api** |
+
+---
+
+## ⚔️ Statistik Pertarungan (Competitive Stats)
+
+Tidak semua Champion diciptakan setara. Pilih strategimu!
+
+| Rarity | HP | DMG | Critical Chance 💥 | Dodge Chance 💨 | Playstyle |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Legendary** | 400 | 40 | **25%** | 10% | **Aggressive God** |
+| **Pink** | 300 | 35 | 15% | **25%** | **Tricky / Evasive** |
+| **Epic** | 200 | 25 | 10% | 5% | Balanced Elite |
+| **Rare** | 120 | 15 | 5% | 0% | Standard Soldier |
+| **Common** | 80 | 10 | 0% | 0% | Cannon Fodder |
+
+> **Critical Hit**: Damage x1.5 (Teks Oranye)
+> **Dodge**: Damage 0 (Teks Biru "MISS!")
 
 ---
 
 ## 🛠️ Arsitektur Sistem (Visualized)
 
-Bagaimana cara kerjanya?
-
 ```mermaid
 graph TD
-    User[👤 User / Frontend] -->|Interactive Drag & Gacha| NextJS[⚛️ Next.js 15 App]
-    NextJS -->|API Route| API[🛡️ Backend Logic]
+    User[👤 User] -->|Join/Gacha| NextJS[⚛️ Next.js Frontend]
+    User -->|Battle PVP| Battle[⚔️ Battle Page]
     
-    subgraph "Data Layer"
-        API -->|Check Config| Switch{Supabase Configured?}
-        Switch -->|Yes| DB[(☁️ Supabase Cloud)]
-        Switch -->|No| Local[(📂 Local JSON)]
+    subgraph "Data & Sync Layer"
+        NextJS -->|Fetch/Save| DB[(☁️ Supabase DB)]
+        NextJS -->|Realtime Update| Broadcast[📡 Supabase Broadcast]
+        Battle -->|Attack Event| Broadcast
+        Broadcast -->|Sync State| Opponent[👤 Player 2]
     end
     
-    subgraph "Auto-Reset Protocol"
-        Cron[⏰ Scheduler] -->|01:00 WIB| API
-        API -->|DELETE| DB
-        API -->|DELETE| Local
+    subgraph "Local Persistence"
+        Battle -->|Save Streak| LocalStorage[💾 Browser Storage]
+        Battle -->|Permadeath| Delete[❌ Remove Champion]
     end
 ```
-
-*   **[Next.js 15](https://nextjs.org/)**: Framework React utama (App Router).
-*   **[React 19](https://react.dev/)**: Library UI.
-*   **[Framer Motion](https://www.framer.com/motion/)**: Untuk animasi orbit kompleks dan transisi.
-*   **[Vercel KV / Supabase](https://supabase.com/)**: Opsional, untuk penyimpanan data persisten di cloud.
 
 ---
 
-## 🔄 Siklus Hidup Avatar (The Loop)
+## 🚀 Panduan Instalasi (Development)
 
-```mermaid
-stateDiagram-v2
-    [*] --> Gacha: User Joins
-    Gacha --> Common: 50% Chance
-    Gacha --> Rare: 24% Chance
-    Gacha --> Epic: 19% Chance
-    Gacha --> Pink: 6% Chance
-    Gacha --> LEGENDARY: 1% Chance
-    
-    state "Floating in Void" as Float
-    Common --> Float
-    Rare --> Float
-    Epic --> Float
-    Pink --> Float
-    LEGENDARY --> Float
-    
-    Float --> ZeroHour: Waiting...
-    
-    state "☠️ ZERO HOUR (01:00 WIB)" as ZeroHour
-    ZeroHour --> [*]: DELETED (Reset)
-```
-
-## 🚀 Panduan Instalasi (Lokal)
-
-Ingin menjalankan project ini di komputer Anda sendiri? Ikuti langkah mudah ini:
+Ingin menjalankan project ini di komputer Anda sendiri?
 
 ### 1. Prasyarat
-Pastikan Anda sudah menginstall [Node.js](https://nodejs.org/) (Versi 18 LTS atau terbaru).
+Pastikan Anda sudah menginstall [Node.js](https://nodejs.org/) (Versi 18+).
 
----
+### 2. Setup Env
+Buat file `.env.local` di folder `Fullstack/` dan isi dengan kunci Supabase Anda:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-## 🎮 Controls & Interactions
-
-Cara bermain di sandbox ini:
-
-| Action | Icon | Effect |
-| :--- | :---: | :--- |
-| **Hover** | 👆 | **Scan Identity** (Melihat Title & Aura) |
-| **Click** | 🖱️ | **Open Detail** (Pop-up Kartu Identitas) |
-| **Drag** | ✊ | **Throw Avatar** (Lempar!) |
-| **Wait** | ⏳ | **Observe Orbit** (Lihat rotasi alami) |
-
----
-
-### 2. Instalasi & Jalankan
-Buka terminal di folder project dan jalankan perintah:
-
+### 3. Jalankan Aplikasi
 ```bash
-# Instal semua dependensi
-npm run install-all
+# Masuk ke folder Fullstack
+cd Fullstack
 
-# Jalankan server development
+# Install dependensi
+npm install
+
+# Jalankan server
 npm run dev
 ```
-
-Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
+Buka [http://localhost:3000](http://localhost:3000) dan mulai petualangan!
 
 ---
 
-## ☁️ Panduan Deployment (Visualized)
+## 🤝 Kontribusi & Lisensi
 
-Langkah mudah menuju awan:
-
-```mermaid
-sequenceDiagram
-    participant Dev as 👨‍💻 Developer
-    participant GitHub as 🐙 GitHub
-    participant Vercel as ▲ Vercel
-    participant Supabase as ⚡ Supabase
-
-    Dev->>GitHub: Git Push (main)
-    GitHub->>Vercel: Trigger Webhook
-    Vercel->>Vercel: Build Next.js App
-    Vercel->>Supabase: Connect DB (Env Vars)
-    Supabase-->>Vercel: Connection OK
-    Vercel-->>Dev: Deployment Success (URL)
+Dibuat dengan 💻, ☕, dan sedikit 😡 debugging.
+Dilindungi oleh lisensi [MIT](LICENSE). Bebas digunakan, dilarang dijual mahal-mahal.
 ```
-
-### 1. Push ke GitHub
-Upload kode ini ke repository GitHub Anda.
-
-### 2. Import di Vercel
-Buka dashboard [Vercel](https://vercel.com), buat project baru, dan import repository GitHub tadi.
-
-### 3. Setup Database (Supabase)
-Karena Vercel bersifat *serverless* (file lokal akan hilang saat restart), Anda wajib menggunakan database cloud seperti Supabase agar data profil tersimpan permanen.
-
-1.  Buat project di [Supabase.com](https://supabase.com/).
-2.  Jalankan perintah SQL ini di "SQL Editor" Supabase:
-    ```sql
-    create table profiles (
-      id bigint generated by default as identity primary key,
-      content jsonb not null,
-      created_at timestamp with time zone default timezone('utc'::text, now()) not null
-    );
-    ```
-3.  Di Dashboard Vercel (Menu **Settings > Environment Variables**), tambahkan:
-    *   `NEXT_PUBLIC_SUPABASE_URL`: (URL Project Supabase Anda)
-    *   `NEXT_PUBLIC_SUPABASE_ANON_KEY`: (Anon Key Supabase Anda)
-
-4.  **Redeploy** (atau deploy ulang) project Anda di Vercel.
-
----
-
-## 📂 Struktur Project
-
-```text
-/
-├── frontend/
-│   ├── src/app/           # Next.js App Router (Halaman & API)
-│   ├── src/components/    # Komponen (Avatar, Modal, dll)
-│   ├── src/lib/           # Konfigurasi Supabase
-│   └── data/              # Fallback penyimpanan lokal
-├── package.json           # Skrip utama
-└── README.md              # Dokumentasi ini
-```
-
----
-
-## 🤝 Kontribusi
-
-Konsep atau ide baru? Silakan fork repository ini dan kirimkan Pull Request!
-
-## 📝 Lisensi
-
-Dibuat dengan Cinta dan malam untuk **Teman-teman Asah**.
-Dilindungi di bawah lisensi [MIT](LICENSE).
