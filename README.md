@@ -27,17 +27,19 @@ Nasibmu ditentukan oleh algoritma. Siapakah kamu sebenarnya?
 
 ```mermaid
 pie title Probability Distribution
-    "Common (Anak Baik)" : 60
-    "Rare (Pekerja Bayangan)" : 30
-    "Epic (Fullstack Dipaksa)" : 9
+    "Common (Anak Baik)" : 50
+    "Rare (Pekerja Bayangan)" : 24
+    "Epic (Fullstack Dipaksa)" : 19
+    "Pink (Queen of Logic)" : 6
     "LEGENDARY (Tiang Penyangga)" : 1
 ```
 
 | Rarity | Chance | Contoh Gelar | Efek Visual |
 | :--- | :---: | :--- | :--- |
-| **⚪ Common** | 60% | *Kerja Tanpa Riuh, Anak Baik* | Badge Abu-abu |
-| **🔵 Rare** | 30% | *Penambal Lubang, Pekerja Bayangan* | Badge Biru + Glow |
-| **🟣 Epic** | 9% | *Satu Orang Banyak Peran, Fullstack Dipaksa* | Badge Ungu + Neon |
+| **⚪ Common** | 50% | *Kerja Tanpa Riuh, Anak Baik* | Badge Abu-abu |
+| **🔵 Rare** | 24% | *Penambal Lubang, Pekerja Bayangan* | Badge Biru + Glow |
+| **🟣 Epic** | 19% | *Satu Orang Banyak Peran, Fullstack Dipaksa* | Badge Ungu + Neon |
+| **💗 Pink** | 6% | *Queen of Logic, UI/UX Goddess* | **Badge Pink + Aura Cinta (<3)** |
 | **🔴 LEGENDARY** | **1%** | ***Tiang Penyangga Kelompok, Penggendong Handal*** | **Aura Merah Berputar & Emas** |
 
 ---
@@ -81,15 +83,17 @@ graph TD
 ```mermaid
 stateDiagram-v2
     [*] --> Gacha: User Joins
-    Gacha --> Common: 60% Chance
-    Gacha --> Rare: 30% Chance
-    Gacha --> Epic: 9% Chance
+    Gacha --> Common: 50% Chance
+    Gacha --> Rare: 24% Chance
+    Gacha --> Epic: 19% Chance
+    Gacha --> Pink: 6% Chance
     Gacha --> LEGENDARY: 1% Chance
     
     state "Floating in Void" as Float
     Common --> Float
     Rare --> Float
     Epic --> Float
+    Pink --> Float
     LEGENDARY --> Float
     
     Float --> ZeroHour: Waiting...
