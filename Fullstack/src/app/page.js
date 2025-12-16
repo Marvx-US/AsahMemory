@@ -99,16 +99,19 @@ export default function Home() {
             else if (tier === 'Rare') titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
             else titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
         } else {
-            // Normal Logic
-            if (rand < 60) {
+            // Normal Logic: Common (50%), Rare (24%), Epic (9%), Pink (16%), Legendary (1%)
+            if (rand < 50) {
                 tier = 'Common';
                 titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
-            } else if (rand < 90) {
+            } else if (rand < 74) {
                 tier = 'Rare';
                 titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
-            } else if (rand < 99) {
+            } else if (rand < 83) {
                 tier = 'Epic';
                 titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
+            } else if (rand < 99) {
+                tier = 'Pink';
+                titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
             } else {
                 tier = 'Legendary';
                 titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
