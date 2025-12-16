@@ -41,7 +41,7 @@ const BackgroundDecorations = () => {
                 transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
                 style={{ position: 'absolute', top: '15%', left: '10%', width: '100px', zIndex: 1, opacity: 0.6 }}
             >
-                <SkyFlower color="#0055D4" />
+                <SkyFlower src="/flower.png" />
             </motion.div>
 
             {/* Sky Flower 2 */}
@@ -51,7 +51,7 @@ const BackgroundDecorations = () => {
                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                 style={{ position: 'absolute', bottom: '20%', right: '10%', width: '80px', zIndex: 1, opacity: 0.5 }}
             >
-                <SkyFlower color="#FF6B00" />
+                <SkyFlower src="/flower_orange.png" />
             </motion.div>
 
             {/* Sparkles */}
@@ -61,20 +61,13 @@ const BackgroundDecorations = () => {
     );
 };
 
-// Flower Component (SpongeBob style)
-const SkyFlower = ({ color }) => (
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Petals */}
-        <path d="M50 20 C 60 5, 75 20, 65 35" stroke={color} strokeWidth="3" strokeLinecap="round" />
-        <path d="M80 50 C 95 60, 80 75, 65 65" stroke={color} strokeWidth="3" strokeLinecap="round" />
-        <path d="M50 80 C 40 95, 25 80, 35 65" stroke={color} strokeWidth="3" strokeLinecap="round" />
-        <path d="M20 50 C 5 40, 20 25, 35 35" stroke={color} strokeWidth="3" strokeLinecap="round" />
-        <path d="M35 35 C 30 20, 45 15, 52 25" stroke={color} strokeWidth="3" strokeLinecap="round" strokeOpacity="0" />
-
-        {/* Simple Flower Shape */}
-        <circle cx="50" cy="50" r="10" stroke={color} strokeWidth="3" />
-        <path d="M50 40 Q 60 20 70 40 T 90 50 T 70 60 T 50 80 T 30 60 T 10 50 T 30 40 Z" fill="none" stroke={color} strokeWidth="3" />
-    </svg>
+// Flower Component using uploaded image
+const SkyFlower = ({ src }) => (
+    <img
+        src={src}
+        alt="Flower Decoration"
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+    />
 );
 
 const Star = ({ x, y, delay, color }) => (
