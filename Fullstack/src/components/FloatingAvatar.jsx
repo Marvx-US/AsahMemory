@@ -148,10 +148,10 @@ const FloatingAvatar = React.memo(({ image, name, title, rarity, top, left, dura
 });
 
 const rarityColors = {
-  Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
+  Common: { bg: '#fff', text: '#555', border: '#ddd' },
   Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
   Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-  Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG
+  Legendary: { bg: 'linear-gradient(45deg, #850000, #ff0000)', text: '#FFD700', border: '#FFD700' },
   Pink: { bg: '#FFF0F5', text: '#FF1493', border: '#FF69B4' },
 };
 

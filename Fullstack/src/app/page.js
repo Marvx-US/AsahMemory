@@ -305,7 +305,7 @@ export default function Home() {
                         opacity: 0.9
                     }}
                 >
-                    Connecting Digital Souls in the Void
+                    Connecting Digital Souls in the Void ☁️
                 </motion.p>
             </div>
             {/* Profile Detail Modal */}
@@ -337,7 +337,8 @@ export default function Home() {
                                 background: 'rgba(255, 255, 255, 0.95)', // White Paper
                                 padding: '40px',
                                 borderRadius: '30px',
-                                boxShadow: '0 20px 60px rgba(0, 85, 212, 0.2)',
+                                // DYNAMIC CARD SHADOW (Outer Glow)
+                                boxShadow: rarityColors[selectedProfile.rarity]?.cardShadow || '0 20px 60px rgba(0,0,0,0.1)',
                                 maxWidth: '350px',
                                 width: '90%',
                                 textAlign: 'center',
@@ -345,9 +346,15 @@ export default function Home() {
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 color: '#333',
-                                border: '1px solid white'
+                                border: '1px solid white',
+                                position: 'relative', // For particles
+                                overflow: 'visible' // Allow avatar glow to bleed out if needed
                             }}
                         >
+                            {/* Particles for High Rarity */}
+                            {selectedProfile.rarity === 'Legendary' && <Particles color="#FFD700" />}
+                            {selectedProfile.rarity === 'Pink' && <Particles color="#FF69B4" />}
+
                             <img
                                 src={selectedProfile.image}
                                 alt={selectedProfile.name}
@@ -358,7 +365,10 @@ export default function Home() {
                                     marginBottom: '20px',
                                     objectFit: 'cover',
                                     border: `3px solid ${rarityColors[selectedProfile.rarity]?.text || '#ccc'}`,
-                                    boxShadow: `0 10px 30px rgba(0,0,0,0.1)`
+                                    // DYNAMIC AVATAR SHADOW (GLOW)
+                                    boxShadow: rarityColors[selectedProfile.rarity]?.shadow || '0 10px 30px rgba(0,0,0,0.1)',
+                                    zIndex: 2,
+                                    background: '#fff'
                                 }}
                             />
                             <h2 style={{
@@ -367,7 +377,8 @@ export default function Home() {
                                 fontSize: '2rem',
                                 fontFamily: "'Outfit', sans-serif", // Clean font for name
                                 fontWeight: '800', // Extra bold
-                                letterSpacing: '-1px'
+                                letterSpacing: '-1px',
+                                zIndex: 2
                             }}>{selectedProfile.name}</h2>
                             {selectedProfile.title && (
                                 <div style={{
@@ -381,11 +392,12 @@ export default function Home() {
                                     fontSize: '0.85rem',
                                     letterSpacing: '1px',
                                     boxShadow: selectedProfile.rarity === 'Legendary' ? '0 0 15px #FFD700' : 'none',
+                                    zIndex: 2
                                 }}>
                                     {selectedProfile.title}
                                 </div>
                             )}
-                            <p style={{ marginTop: '25px', color: '#666', fontSize: '0.8rem', opacity: 0.8, letterSpacing: '0.5px' }}>
+                            <p style={{ marginTop: '25px', color: '#666', fontSize: '0.8rem', opacity: 0.8, letterSpacing: '0.5px', zIndex: 2 }}>
                                 "FLOATING IN THE VOID"
                             </p>
                         </motion.div>
@@ -396,11 +408,43 @@ export default function Home() {
     );
 }
 
-
-
 const rarityColors = {
-    Common: { bg: '#fff', text: '#555', border: '#ddd' },
-    Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
-    Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
-    Legendary: { bg: '#330000', text: '#FFD700', border: '#FFD700' }, // Gold on Dark for contrast
+    Common: { bg: '#fff', text: '#555', border: '#ddd', shadow: '0 10px 30px rgba(0,0,0,0.1)', cardShadow: '0 20px 60px rgba(0,0,0,0.1)' },
+    Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff', shadow: '0 10px 30px rgba(0, 85, 212, 0.3)', cardShadow: '0 20px 60px rgba(0, 85, 212, 0.2)' },
+    Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7', shadow: '0 10px 30px rgba(114, 46, 209, 0.4)', cardShadow: '0 20px 60px rgba(114, 46, 209, 0.25)' },
+    Legendary: { bg: 'linear-gradient(45deg, #850000, #ff0000)', text: '#FFD700', border: '#FFD700', shadow: '0 0 30px #FF0000, 0 0 60px #FFD700', cardShadow: '0 0 60px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3)' },
+    Pink: { bg: '#FFF0F5', text: '#FF1493', border: '#FF69B4', shadow: '0 0 50px #FF1493, 0 0 20px #FF69B4', cardShadow: '0 0 60px rgba(255, 105, 180, 0.5)' },
 };
+
+// Reused Particle Effect
+const Particles = ({ color }) => {
+    return (
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+            {[...Array(15)].map((_, i) => (
+                <motion.div
+                    key={i}
+                    style={{
+                        position: 'absolute',
+                        width: 8,
+                        height: 8,
+                        background: color,
+                        borderRadius: '50%',
+                        left: '50%',
+                        top: '50%'
+                    }}
+                    animate={{
+                        x: (Math.random() - 0.5) * 400,
+                        y: (Math.random() - 0.5) * 400,
+                        opacity: [1, 0],
+                        scale: [0, 1.5, 0],
+                    }}
+                    transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: Math.random() * 1
+                    }}
+                />
+            ))}
+        </div>
+    )
+}
