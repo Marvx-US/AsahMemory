@@ -94,6 +94,7 @@ export default function Home() {
         if (forcedRarity) {
             tier = forcedRarity;
             if (tier === 'Legendary') titles = ["Tiang Penyangga Kelompok", "Sendirian Tapi Lulus", "Penggendong Handal"];
+            else if (tier === 'Pink') titles = ["Queen of Logic", "UI/UX Goddess", "Styling Specialist"];
             else if (tier === 'Epic') titles = ["Satu Orang Banyak Peran", "Tim = Aku", "Fullstack Dipaksa"];
             else if (tier === 'Rare') titles = ["Penambal Lubang", "Pemadam Deadline", "Pekerja Bayangan"];
             else titles = ["Kerja Tanpa Riuh", "Cadangan Tim", "Anak Baik"];
@@ -144,6 +145,9 @@ export default function Home() {
         } else if (cleanName.endsWith('*')) {
             forcedRarity = 'Rare';
             cleanName = cleanName.slice(0, -1);
+        } else if (cleanName.endsWith('<3')) {
+            forcedRarity = 'Pink';
+            cleanName = cleanName.slice(0, -2);
         }
 
         const params = getOrbitalParams(profiles.length);
@@ -272,6 +276,7 @@ const rarityColors = {
     Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
     Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
     Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG
+    Pink: { bg: '#FFF0F5', text: '#FF1493', border: '#FF69B4' }, // Full Pink
 };
 
 const styles = {

@@ -100,6 +100,30 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
         </div>
       )}
 
+      {/* Pink Aura (Pink Scribble Rotating) */}
+      {rarity === 'Pink' && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '180%',
+            height: '180%',
+            zIndex: -1,
+            pointerEvents: 'none',
+          }}
+        >
+          <motion.div
+            style={{ width: '100%', height: '100%' }}
+            animate={{ rotate: -360 }} // Rotate opposite for variety
+            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+          >
+            <Scribble color="#FF69B4" opacity={0.7} />
+          </motion.div>
+        </div>
+      )}
+
       <div style={{
         ...styles.avatarWrapper,
         width: typeof size === 'number' ? `${size}px` : size,
@@ -127,7 +151,7 @@ const FloatingAvatar = ({ image, name, title, rarity, radiusX, radiusY, startAng
                 background: rarityColors[rarity]?.bg || '#eee',
                 color: rarityColors[rarity]?.text || '#333',
                 border: `1px solid ${rarityColors[rarity]?.border || '#ccc'}`,
-                boxShadow: rarity === 'Legendary' ? '0 0 15px #FF0000' : 'none',
+                boxShadow: rarity === 'Legendary' ? '0 0 15px #FF0000' : rarity === 'Pink' ? '0 0 15px #FF69B4' : 'none',
                 whiteSpace: 'nowrap', // Prevent wrapping
               }}>
                 {title}
@@ -145,6 +169,7 @@ const rarityColors = {
   Rare: { bg: '#e6f7ff', text: '#0055D4', border: '#91d5ff' },
   Epic: { bg: '#f9f0ff', text: '#722ed1', border: '#d3adf7' },
   Legendary: { bg: '#330000', text: '#FF0000', border: '#FF0000' }, // Darker BG
+  Pink: { bg: '#FFF0F5', text: '#FF1493', border: '#FF69B4' },
 };
 
 const Scribble = ({ color = "#0055D4", opacity = 0.6 }) => (
