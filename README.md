@@ -1,4 +1,4 @@
-# � Asah Memory 2025
+# 🌌 Asah Memory 2025
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Next.js](https://img.shields.io/badge/Next.js-15-black) ![Tailwind](https://img.shields.io/badge/Style-Glassmorphism-cyan)
 
