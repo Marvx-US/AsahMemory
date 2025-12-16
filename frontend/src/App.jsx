@@ -7,23 +7,27 @@ import './App.css';
 
 function App() {
   const [profiles, setProfiles] = useState([]);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('asah_memory_profiles');
-    if (saved) {
+    const fetchProfiles = async () => {
       try {
-        setProfiles(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to parse local storage", e);
+        const response = await fetch('http://localhost:3001/api/profiles');
+        if (response.ok) {
+          const data = await response.json();
+          setProfiles(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch profiles:", error);
       }
-    }
-  }, []);
+    };
 
-  useEffect(() => {
-    if (profiles.length > 0) {
-      localStorage.setItem('asah_memory_profiles', JSON.stringify(profiles));
-    }
-  }, [profiles]);
+    fetchProfiles();
+
+    // Poll for updates every 5 seconds
+    const interval = setInterval(fetchProfiles, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Helper to compress image
   const compressImage = (base64Str, maxWidth = 150, maxHeight = 150) => {
@@ -98,7 +102,20 @@ function App() {
       // Responsive size: base clamp * random scale factor
       size: `calc(clamp(50px, 12vw, 90px) * ${(0.8 + Math.random() * 0.4).toFixed(2)})`,
     };
-    setProfiles([...profiles, newProfile]);
+
+    try {
+      await fetch('http://localhost:3001/api/profiles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProfile),
+      });
+      // Optimistic update
+      setProfiles([...profiles, newProfile]);
+    } catch (error) {
+      console.error("Failed to save profile:", error);
+    }
   };
 
   const titleText = "ASAH  MEMORY  2025".split("");
@@ -138,11 +155,42 @@ function App() {
           <FloatingAvatar
             key={profile.id}
             {...profile}
+            onClick={() => setSelectedProfile(profile)}
           />
         ))}
       </div>
 
       <ProfileControls onJoin={addProfile} />
+
+      {/* Profile Detail Modal */}
+      <motion.div
+        initial={false}
+        animate={selectedProfile ? { opacity: 1, pointerEvents: 'auto' } : { opacity: 0, pointerEvents: 'none' }}
+        style={styles.modalOverlay}
+        onClick={() => setSelectedProfile(null)}
+      >
+        {selectedProfile && (
+          <motion.div
+            layoutId={`avatar-${selectedProfile.id}`}
+            style={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+          >
+            <div style={styles.modalImageWrapper}>
+              {selectedProfile.image ? (
+                <img src={selectedProfile.image} alt={selectedProfile.name} style={styles.modalImage} />
+              ) : (
+                <div style={styles.placeholder} />
+              )}
+            </div>
+            <h2 style={styles.modalName}>{selectedProfile.name}</h2>
+            <p style={{ color: '#003380', fontSize: '1rem', fontWeight: '500', opacity: 0.8 }}>Exploring the Void</p>
+            <button style={styles.closeButton} onClick={() => setSelectedProfile(null)}>Close</button>
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   );
 }
@@ -197,6 +245,71 @@ const styles = {
     width: '100vw',
     height: '100vh',
     pointerEvents: 'none',
+  },
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 1000,
+    background: 'rgba(0, 0, 0, 0.6)',
+    backdropFilter: 'blur(5px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    background: 'rgba(255, 255, 255, 0.65)',
+    backdropFilter: 'blur(20px)',
+    padding: '40px',
+    borderRadius: '24px',
+    border: '1px solid rgba(255, 255, 255, 0.5)',
+    boxShadow: '0 20px 50px rgba(0, 85, 212, 0.15)',
+    textAlign: 'center',
+    maxWidth: '90%',
+    width: '400px',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  modalImageWrapper: {
+    width: '150px',
+    height: '150px',
+    borderRadius: '50%',
+    overflow: 'hidden',
+    border: '3px solid #0055D4',
+    boxShadow: '0 0 20px rgba(0, 85, 212, 0.2)',
+    marginBottom: '20px',
+    background: '#fff',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  modalName: {
+    fontSize: '2rem',
+    color: '#0055D4',
+    margin: '10px 0 5px 0',
+    fontFamily: '"Outfit", sans-serif',
+    fontWeight: '700',
+    letterSpacing: '1px',
+  },
+  closeButton: {
+    marginTop: '30px',
+    padding: '12px 30px',
+    borderRadius: '12px',
+    border: 'none',
+    background: 'linear-gradient(90deg, #0055D4, #0077FF)',
+    color: '#fff',
+    fontSize: '1rem',
+    fontWeight: '700',
+    cursor: 'pointer',
+    transition: 'background 0.3s',
+    boxShadow: '0 4px 15px rgba(0, 85, 212, 0.3)',
+    letterSpacing: '1px',
   }
 }
 

@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment Variables
+# Environment Variables
+.env
+backend/.env
+
+# Local Data
+backend/server_profiles.json
+

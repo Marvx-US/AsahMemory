@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100 }) => {
+const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, direction, size = 100, onClick }) => {
   // Calculate orbit path
   const orbit = React.useMemo(() => {
     const keyframes = { left: [], top: [] };
@@ -27,6 +27,7 @@ const FloatingAvatar = ({ image, name, radiusX, radiusY, startAngle, duration, d
 
   return (
     <motion.div
+      onClick={onClick}
       initial={{ opacity: 0, scale: 0 }}
       animate={{
         opacity: 1,
@@ -96,6 +97,7 @@ const styles = {
     alignItems: 'center',
     zIndex: 5,
     cursor: 'pointer',
+    pointerEvents: 'auto',
   },
   avatarWrapper: {
     borderRadius: '50%',
@@ -104,6 +106,7 @@ const styles = {
     background: 'rgba(255, 255, 255, 0.5)',
     backdropFilter: 'blur(8px)',
     border: '1px solid rgba(0, 85, 212, 0.2)',
+    aspectRatio: '1 / 1',
   },
   avatarInner: {
     width: '100%',
