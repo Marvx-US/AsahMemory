@@ -18,9 +18,9 @@ export default function Home() {
                 if (response.ok) {
                     const data = await response.json();
                     // Filter avatars older than 10 minutes
-                    const TEN_MINUTES = 30 * 60 * 1000;
+                    const ONE_HOUR = 60 * 60 * 1000;
                     const now = Date.now();
-                    const filteredData = data.filter(profile => (now - profile.id) < TEN_MINUTES);
+                    const filteredData = data.filter(profile => (now - profile.id) < ONE_HOUR);
                     setProfiles(filteredData);
                 }
             } catch (error) {
@@ -231,7 +231,7 @@ const styles = {
         color: '#0055D4',
         letterSpacing: '2px',
         margin: 0,
-        fontFamily: '"Outfit", sans-serif',
+        fontFamily: 'var(--font-permanent-marker), "Outfit", sans-serif',
         width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto',

@@ -39,7 +39,7 @@ const BackgroundDecorations = () => {
                 initial={{ rotate: 0 }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                style={{ position: 'absolute', top: '15%', left: '10%', width: '150px', zIndex: 1, opacity: 0.6 }}
+                style={{ position: 'absolute', top: '15%', left: '10%', width: 'clamp(80px, 15vw, 150px)', zIndex: 1, opacity: 0.6 }}
             >
                 <SkyFlower src="/flower.png" />
             </motion.div>
@@ -49,7 +49,7 @@ const BackgroundDecorations = () => {
                 initial={{ rotate: 45 }}
                 animate={{ rotate: -315 }}
                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                style={{ position: 'absolute', bottom: '20%', right: '10%', width: '200px', zIndex: 1, opacity: 0.5 }}
+                style={{ position: 'absolute', bottom: '5%', right: '10%', width: 'clamp(120px, 20vw, 200px)', zIndex: 1, opacity: 0.5 }}
             >
                 <SkyFlower src="/flower_orange.png" />
             </motion.div>
