@@ -49,7 +49,7 @@ const BackgroundDecorations = () => {
                 initial={{ rotate: 45 }}
                 animate={{ rotate: -315 }}
                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                style={{ position: 'absolute', bottom: '20%', right: '10%', width: '80px', zIndex: 1, opacity: 0.5 }}
+                style={{ position: 'absolute', bottom: '20%', right: '10%', width: '130px', zIndex: 1, opacity: 0.5 }}
             >
                 <SkyFlower src="/flower_orange.png" />
             </motion.div>
