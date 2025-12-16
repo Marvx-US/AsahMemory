@@ -177,7 +177,12 @@ export async function POST(request) {
         // 2. Generate Title & Rarity (Ignore payload.title/rarity)
         const { title, rarity } = generateGachaTitle(forcedRarity);
 
-        // 3. Construct Secure Profile Object
+        // 3. Generate Secure Size (Server-side)
+        // Logic: base clamp * random scale factor (0.8 - 1.2)
+        const randomScale = (0.8 + Math.random() * 0.4).toFixed(2);
+        const secureSize = `calc(clamp(50px, 12vw, 90px) * ${randomScale})`;
+
+        // 4. Construct Secure Profile Object
         const newProfile = {
             id: Date.now(),
             name: cleanName,
@@ -186,7 +191,7 @@ export async function POST(request) {
             left: payload.left,
             duration: payload.duration,
             delay: payload.delay,
-            size: payload.size,
+            size: secureSize,     // Server-generated
             title,               // Server-generated
             rarity               // Server-generated
         };

@@ -19,9 +19,28 @@ export default function Home() {
                 if (response.ok) {
                     const data = await response.json();
 
-
                     setProfiles(prevProfiles => {
-                        return data.map(newProfile => {
+                        // --- SMART FILTERING (Optimization) ---
+                        // Goal: Limit total to 50 to prevent lag, BUT protect VIPs (Legendary/Pink).
+
+                        // 1. Separate VIPs and Normals
+                        const vips = data.filter(p => p.rarity === 'Legendary' || p.rarity === 'Pink');
+                        const commons = data.filter(p => p.rarity !== 'Legendary' && p.rarity !== 'Pink');
+
+                        // 2. Sort Normals by ID (newest first)
+                        commons.sort((a, b) => b.id - a.id);
+
+                        // 3. Calculate remaining slots
+                        const MAX_DISPLAY = 50;
+                        const slotsLeft = Math.max(0, MAX_DISPLAY - vips.length);
+
+                        // 4. Take newest commons to fill slots
+                        const visibleCommons = commons.slice(0, slotsLeft);
+
+                        // 5. Combine and process for floating params
+                        const combined = [...vips, ...visibleCommons];
+
+                        return combined.map(newProfile => {
                             // 1. If profile already counts as "new schema" (has top/left), use it directly.
                             if (newProfile.top && newProfile.left) return newProfile;
 
@@ -117,13 +136,12 @@ export default function Home() {
 
         const params = getFloatingParams();
 
-        // Prepare payload (Client sends RAW name, Server handles cheat codes & title)
+        // Prepare payload (Client sends RAW name, Server handles cheat codes & title & size)
         const payload = {
             name: data.name,
             image: finalImage,
             ...params,
-            // Responsive size: base clamp * random scale factor
-            size: `calc(clamp(50px, 12vw, 90px) * ${(0.8 + Math.random() * 0.4).toFixed(2)})`,
+            // Size is now generated on server
         };
 
         try {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FloatingAvatar = ({ image, name, title, rarity, top, left, duration, delay, size = 100, onClick, dragConstraints }) => {
+const FloatingAvatar = React.memo(({ image, name, title, rarity, top, left, duration, delay, size = 100, onClick, dragConstraints }) => {
   // Generate random drift range for unique movement per avatar
   const driftX = React.useMemo(() => [0, 30 + Math.random() * 20, 0, -30 - Math.random() * 20, 0], []);
   const driftY = React.useMemo(() => [0, -30 - Math.random() * 20, 0, 30 + Math.random() * 20, 0], []);
@@ -145,7 +145,7 @@ const FloatingAvatar = ({ image, name, title, rarity, top, left, duration, delay
       }
     </motion.div >
   );
-};
+});
 
 const rarityColors = {
   Common: { bg: '#f0f0f0', text: '#666', border: '#ddd' },
@@ -194,8 +194,8 @@ const styles = {
     borderRadius: '50%',
     boxShadow: '0 5px 15px rgba(0, 85, 212, 0.15)',
     padding: '4px',
-    background: 'rgba(255, 255, 255, 0.5)',
-    backdropFilter: 'blur(8px)',
+    background: 'rgba(255, 255, 255, 0.8)',
+    // backdropFilter: 'blur(8px)',
     border: '1px solid rgba(0, 85, 212, 0.2)',
     aspectRatio: '1 / 1',
   },
