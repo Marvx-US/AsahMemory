@@ -73,17 +73,36 @@ Tidak semua Champion diciptakan setara. Pilih strategimu!
 
 ## 🛠️ Arsitektur Sistem (Visualized)
 
-```mermaid
-graph LR
-    User[User] --> NextJS[Next.js Frontend]
-    User --> Battle[Battle Page]
-    User --> Mading[Mading Board]
-    NextJS --> DB[(Supabase DB)]
-    Mading --> DB
-    NextJS --> Broadcast[Supabase Broadcast]
-    Battle --> Broadcast
-    Battle --> LocalStorage[Browser Storage]
 ```
+                    ┌────────────────┐
+                    │   👤 User      │
+                    └─────┬─────┬─────┘
+                         │     │
+           ┌─────────┼─────┼─────────┐
+           │         │     │         │
+      ┌────┴────┐  │  ┌────┴────┐  ┌────┴────┐
+      │ Next.js │  │  │ Battle  │  │  Mading  │
+      │ Frontend│  │  │  Page   │  │  Board   │
+      └───┬─┬───┘  │  └───┬────┘  └───┬────┘
+          │ │      │      │          │
+          │ └──────┼──────┼──────────┘
+          │         │      │
+          │    ┌────┴──────┐
+          │    │ ☁️ Supabase │
+          │    │  Database  │
+          │    └──────────┘
+          │
+     ┌────┴───────────┐
+     │ 📱 Realtime    │
+     │   Broadcast     │
+     └───────────────┘
+```
+
+**Data Flow:**
+- 👤 **User** → Akses via Next.js Frontend / Battle Page / Mading Board
+- ☁️ **Supabase DB** → Persistent storage untuk avatars & mading posts
+- 📱 **Realtime Broadcast** → Sync battle state antar pemain
+- 💾 **LocalStorage** → Win streak & champion data
 
 ---
 
@@ -124,17 +143,29 @@ sequenceDiagram
 
 ### 📌 Cara Posting di Mading Board
 
-```mermaid
-flowchart LR
-    A[User] --> B[Klik Tab Mading]
-    B --> C[Klik Tempel Tulisan]
-    C --> D[Isi Form]
-    D --> E{Ada Foto?}
-    E -->|Ya| F[Upload Gambar]
-    E -->|Tidak| G[Submit]
-    F --> G
-    G --> H[Post Muncul]
-    H --> I[Klik untuk Detail]
+**Flow Diagram:**
+```
+👤 User
+  │
+  │ 1. Klik Tab "Mading"
+  ↓
+📌 Mading Board
+  │
+  │ 2. Klik "Tempel Tulisan"
+  ↓
+📝 Form Input
+  ├── Nama
+  ├── Pesan
+  └── Foto? ┌─── Ya → Upload
+           └─── Tidak → Skip
+  │
+  │ 3. Submit
+  ↓
+✅ Post Muncul di Grid
+  │
+  │ 4. Klik untuk zoom
+  ↓
+🔍 Detail Modal View
 ```
 
 **Langkah Detail:**
@@ -161,24 +192,39 @@ flowchart LR
 
 ### ⚔️ Cara Battle PVP
 
-```mermaid
-stateDiagram-v2
-    [*] --> LobbyJoin
-    LobbyJoin --> Waiting
-    Waiting --> Ready
-    Ready --> Battle
-    Battle --> Attack
-    Attack --> Calculate
-    Calculate --> Critical
-    Calculate --> Dodge
-    Calculate --> Normal
-    Critical --> CheckHP
-    Dodge --> CheckHP
-    Normal --> CheckHP
-    CheckHP --> NextTurn
-    CheckHP --> Victory
-    NextTurn --> Attack
-    Victory --> [*]
+**Battle State Flow:**
+```
+START
+  │
+  ↓ Create/Join Room
+🚪 LOBBY
+  │
+  ↓ Wait for opponent
+⏳ WAITING (2 Players)
+  │
+  ↓ Both Ready
+⚔️ BATTLE START!
+  │
+  │ ┌───────── Loop ─────────┐
+  │ │                              │
+  ↓ │                              │
+🎯 ATTACK                          │
+  │                                │
+  ↓ RNG Calculate                  │
+  ├─── 💥 Critical (x1.5 DMG)        │
+  ├─── 💨 Dodge (MISS!)              │
+  └─── ⚔️ Normal Hit                  │
+       │                            │
+       ↓ Check HP                   │
+       ├─── HP > 0 ──────────────┘
+       │
+       └─── HP <= 0
+            │
+            ↓
+         🏆 VICTORY!
+            │
+            ↓
+          END
 ```
 
 **Langkah Detail:**
