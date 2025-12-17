@@ -95,6 +95,174 @@ graph TD
 
 ---
 
+## 📖 Panduan Pengguna (User Guide)
+
+Berikut adalah panduan visual cara menggunakan setiap fitur di Asah Memory:
+
+### 🎮 Cara Join ke The Void
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Form as 📝 Profile Form
+    participant System as 🎲 Gacha System
+    participant Void as 🌌 The Void
+    
+    User->>Form: 1. Klik "Join The Void"
+    User->>Form: 2. Ketik Nama
+    User->>Form: 3. Upload Foto (Opsional)
+    Form->>System: 4. Submit
+    System->>System: 🎲 Roll Gacha!
+    System->>Void: 5. Avatar Muncul
+    Void-->>User: ✨ Selamat Datang!
+```
+
+**Langkah Detail:**
+1. **Buka halaman utama** - Klik tombol biru **"Join The Void"**
+2. **Isi nama** - Ketik nama atau nickname Anda
+3. **Upload foto** (opsional) - Klik area upload untuk pilih foto profil
+4. **Submit** - Klik tombol "Submit"
+5. **Tunggu magic** - Sistem akan:
+   - 🎲 Mengundi rarity Anda (Common sampai Legendary)
+   - 🏷️ Memberikan title lucu sesuai rarity
+   - ✨ Menampilkan avatar Anda di Void dengan efek visual unik
+
+> 💡 **Easter Egg**: Ada cara rahasia untuk memanipulasi gacha... Coba eksperimen dengan nama yang Anda ketik!
+
+---
+
+### 📌 Cara Posting di Mading Board
+
+```mermaid
+flowchart LR
+    A[👤 User di Void] --> B[Klik Tab Mading]
+    B --> C[📌 Klik Tempel Tulisan]
+    C --> D[📝 Isi Form]
+    D --> E{Ada Foto?}
+    E -->|Ya| F[Upload Gambar]
+    E -->|Tidak| G[Lanjut Submit]
+    F --> G
+    G --> H[✅ Post Muncul di Grid]
+    H --> I[Klik Post untuk Detail View]
+```
+
+**Langkah Detail:**
+1. **Buka Mading Board** - Klik tab **"Mading"** di navigation
+2. **Klik "📌 Tempel Tulisan"** - Tombol biru sticky di atas
+3. **Isi Form:**
+   - 👤 **Nama**: Siapa yang nulis
+   - 💬 **Pesan**: Tulis catatan/kenangan (max 500 karakter)
+   - 🖼️ **Foto** (opsional): Upload gambar pendukung
+4. **Submit** - Klik "Tempel!"
+5. **Post Muncul** - Tulisan Anda akan muncul di grid dengan:
+   - 🎨 Style "ransom note" unik
+   - 📐 Rotasi random (-5° sampai +5°)
+   - 🎭 Tape/selotip visual di atas
+
+**Interaksi:**
+- **Hover** pada post → Efek shadow & lift
+- **Klik** post → Detail view modal (lebih besar)
+- **Klik background modal** → Kembali ke grid
+
+> ⚠️ **Note**: Mading posts **PERMANEN** (tidak kena ZERO HOUR!)
+
+---
+
+### ⚔️ Cara Battle PVP
+
+```mermaid
+stateDiagram-v2
+    [*] --> LobbyJoin: Buat/Join Room
+    LobbyJoin --> Waiting: Tunggu Lawan
+    Waiting --> Ready: 2 Players Ready
+    Ready --> Battle: Start Battle!
+    Battle --> Attack: Giliran Menyerang
+    Attack --> Calculate: RNG Damage
+    Calculate --> Critical: Critical Hit! (x1.5 DMG)
+    Calculate --> Dodge: MISS! (Dodge)
+    Calculate --> Normal: Normal Hit
+    Critical --> CheckHP
+    Dodge --> CheckHP
+    Normal --> CheckHP
+    CheckHP --> NextTurn: HP > 0
+    CheckHP --> Victory: HP <= 0
+    NextTurn --> Attack
+    Victory --> [*]: Winner Gets Streak!
+```
+
+**Langkah Detail:**
+
+**A. Memulai Battle:**
+1. **Pastikan Anda sudah join Void** (punya Champion)
+2. **Klik tombol "⚔️ Battle"** di halaman utama
+3. **Pilih Mode:**
+   - **Host Room**: Buat room baru → Dapat Room Code
+   - **Join Room**: Masukkan Room Code dari teman
+
+**B. Dalam Battle:**
+1. **Giliran Host** (Player 1):
+   - Host klik **"Attack"**
+   - Sistem menghitung:
+     - 💥 Critical? (Chance based on rarity)
+     - 💨 Dodge? (Chance based on rarity)
+     - 🎯 Normal damage
+2. **Sinkronisasi Real-time**:
+   - Damage number muncul di kedua layar
+   - HP bar update otomatis
+   - Screen shake & lunge animation
+3. **Giliran berganti** ke Player 2
+4. **Repeat** sampai salah satu HP = 0
+
+**C. Hasil Battle:**
+- 🏆 **Menang**: 
+  - Win Streak +1 (tersimpan di localStorage)
+  - Badge streak muncul di homepage
+- ☠️ **Kalah**: 
+  - **PERMADEATH** - Champion Anda dihapus
+  - Harus gacha ulang dari nol
+
+**Visual Indicators:**
+- 🟠 **Orange Text** = Critical Hit (DMG x1.5)
+- 🔵 **Blue "MISS!"** = Dodge successful
+- ⚪ **White Numbers** = Normal damage
+
+---
+
+### ⏰ Protocol: ZERO HOUR Explained
+
+```mermaid
+gantt
+    title Daily Avatar Lifecycle
+    dateFormat HH:mm
+    axisFormat %H:%M WIB
+    
+    section Avatar Active
+    Avatars Exist    :active, 01:00, 24h
+    
+    section Cleanup
+    ZERO HOUR Reset  :crit, 01:00, 1m
+```
+
+**Apa itu ZERO HOUR?**
+- Setiap hari tepat **01:00 WIB**, sistem melakukan "Kiamat Kecil"
+- **Semua avatar dihapus** dari database
+- Void kembali bersih
+- Kenangan hari itu menjadi sejarah
+
+**Apa yang TERHAPUS:**
+- ✅ Avatar Profiles di The Void
+- ✅ Gacha titles dan rarity
+
+**Apa yang AMAN:**
+- ❌ **Mading Board Posts** (Permanen!)
+- ❌ Win Streak badges (localStorage)
+
+**Auto-Expiry (30 Menit):**
+- Selain ZERO HOUR, avatar juga auto-expire setelah 30 menit
+- Ini menjaga Void tetap fresh dan tidak overcrowded
+
+---
+
 ## 🚀 Panduan Instalasi (Development)
 
 Ingin menjalankan project ini di komputer Anda sendiri?
