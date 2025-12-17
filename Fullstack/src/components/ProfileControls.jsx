@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ProfileControls = ({ onJoin }) => {
     // FEATURE FLAG: Set to 'true' when ready to release Battle Mode
-    const IS_BATTLE_READY = false;
+    const IS_BATTLE_READY = true;
 
     const [name, setName] = useState('');
     const [preview, setPreview] = useState(null);
