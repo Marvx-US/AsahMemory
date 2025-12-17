@@ -74,23 +74,15 @@ Tidak semua Champion diciptakan setara. Pilih strategimu!
 ## 🛠️ Arsitektur Sistem (Visualized)
 
 ```mermaid
-graph TD
-    User[User] -->|Join/Gacha| NextJS[Next.js Frontend]
-    User -->|Battle PVP| Battle[Battle Page]
-    User -->|Post Message| Mading[Mading Board]
-    
-    subgraph DataSync[Data & Sync Layer]
-        NextJS -->|Fetch/Save Avatars| DB[(Supabase DB)]
-        Mading -->|Save/Fetch Posts| DB
-        NextJS -->|Realtime Update| Broadcast[Supabase Broadcast]
-        Battle -->|Attack Event| Broadcast
-        Broadcast -->|Sync State| Opponent[Player 2]
-    end
-    
-    subgraph LocalStore[Local Persistence]
-        Battle -->|Save Streak| LocalStorage[Browser Storage]
-        Battle -->|Permadeath| Delete[Remove Champion]
-    end
+graph LR
+    User[User] --> NextJS[Next.js Frontend]
+    User --> Battle[Battle Page]
+    User --> Mading[Mading Board]
+    NextJS --> DB[(Supabase DB)]
+    Mading --> DB
+    NextJS --> Broadcast[Supabase Broadcast]
+    Battle --> Broadcast
+    Battle --> LocalStorage[Browser Storage]
 ```
 
 ---
@@ -104,17 +96,16 @@ Berikut adalah panduan visual cara menggunakan setiap fitur di Asah Memory:
 ```mermaid
 sequenceDiagram
     participant User
-    participant Form as Profile Form
-    participant System as Gacha System
-    participant Void as The Void
-    
-    User->>Form: 1. Klik Join The Void
-    User->>Form: 2. Ketik Nama
-    User->>Form: 3. Upload Foto (Opsional)
-    Form->>System: 4. Submit
-    System->>System: Roll Gacha!
-    System->>Void: 5. Avatar Muncul
-    Void-->>User: Selamat Datang!
+    participant Form
+    participant System
+    participant Void
+    User->>Form: Klik Join The Void
+    User->>Form: Ketik Nama
+    User->>Form: Upload Foto
+    Form->>System: Submit
+    System->>System: Roll Gacha
+    System->>Void: Avatar Muncul
+    Void-->>User: Selamat Datang
 ```
 
 **Langkah Detail:**
@@ -135,15 +126,15 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    A[User di Void] --> B[Klik Tab Mading]
+    A[User] --> B[Klik Tab Mading]
     B --> C[Klik Tempel Tulisan]
     C --> D[Isi Form]
     D --> E{Ada Foto?}
     E -->|Ya| F[Upload Gambar]
-    E -->|Tidak| G[Lanjut Submit]
+    E -->|Tidak| G[Submit]
     F --> G
-    G --> H[Post Muncul di Grid]
-    H --> I[Klik Post untuk Detail View]
+    G --> H[Post Muncul]
+    H --> I[Klik untuk Detail]
 ```
 
 **Langkah Detail:**
@@ -172,22 +163,22 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
-    [*] --> LobbyJoin: Buat/Join Room
-    LobbyJoin --> Waiting: Tunggu Lawan
-    Waiting --> Ready: 2 Players Ready
-    Ready --> Battle: Start Battle!
-    Battle --> Attack: Giliran Menyerang
-    Attack --> Calculate: RNG Damage
-    Calculate --> Critical: Critical Hit! (x1.5 DMG)
-    Calculate --> Dodge: MISS! (Dodge)
-    Calculate --> Normal: Normal Hit
+    [*] --> LobbyJoin
+    LobbyJoin --> Waiting
+    Waiting --> Ready
+    Ready --> Battle
+    Battle --> Attack
+    Attack --> Calculate
+    Calculate --> Critical
+    Calculate --> Dodge
+    Calculate --> Normal
     Critical --> CheckHP
     Dodge --> CheckHP
     Normal --> CheckHP
-    CheckHP --> NextTurn: HP > 0
-    CheckHP --> Victory: HP <= 0
+    CheckHP --> NextTurn
+    CheckHP --> Victory
     NextTurn --> Attack
-    Victory --> [*]: Winner Gets Streak!
+    Victory --> [*]
 ```
 
 **Langkah Detail:**
@@ -230,17 +221,12 @@ stateDiagram-v2
 
 ### ⏰ Protocol: ZERO HOUR Explained
 
-```mermaid
-gantt
-    title Daily Avatar Lifecycle
-    dateFormat HH:mm
-    axisFormat %H:%M WIB
-    
-    section Avatar Active
-    Avatars Exist    :active, 01:00, 24h
-    
-    section Cleanup
-    ZERO HOUR Reset  :crit, 01:00, 1m
+**Timeline Visual:**
+```
+00:00 ━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24:00
+         ↓ 01:00 WIB
+      [ZERO HOUR]
+      🗑️ Cleanup
 ```
 
 **Apa itu ZERO HOUR?**
