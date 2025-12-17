@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ProfileControls = ({ onJoin }) => {
+    // FEATURE FLAG: Set to 'true' when ready to release Battle Mode
+    const IS_BATTLE_READY = false;
+
     const [name, setName] = useState('');
     const [preview, setPreview] = useState(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -43,21 +46,24 @@ const ProfileControls = ({ onJoin }) => {
                             JOIN THE VOID
                         </motion.button>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ delay: 0.1 }}
-                        >
-                            <a href="/battle" style={{ textDecoration: 'none' }}>
-                                <motion.button
-                                    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255, 0, 0, 0.4)' }}
-                                    whileTap={{ scale: 0.95 }}
-                                    style={{ ...styles.joinButton, background: 'rgba(255, 0, 0, 0.2)', border: '1px solid rgba(255, 0, 0, 0.4)', color: '#D40000' }}
-                                >
-                                    ⚔️ BATTLE
-                                </motion.button>
-                            </a>
-                        </motion.div>
+                        {/* FEATURE FLAG: BATTLE MODE */}
+                        {IS_BATTLE_READY && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                <a href="/battle" style={{ textDecoration: 'none' }}>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(255, 0, 0, 0.4)' }}
+                                        whileTap={{ scale: 0.95 }}
+                                        style={{ ...styles.joinButton, background: 'rgba(255, 0, 0, 0.2)', border: '1px solid rgba(255, 0, 0, 0.4)', color: '#D40000' }}
+                                    >
+                                        ⚔️ BATTLE
+                                    </motion.button>
+                                </a>
+                            </motion.div>
+                        )}
                     </div>
                 ) : (
                     <motion.div

@@ -279,6 +279,37 @@ export default function Home() {
             {/* Controls Layer */}
             <div style={{ position: 'relative', zIndex: 100, pointerEvents: 'none' }}>
                 <ProfileControls onJoin={addProfile} />
+
+                {/* NEW: Mading Button */}
+                <div style={{
+                    position: 'fixed',
+                    bottom: '30px',
+                    left: '30px',
+                    pointerEvents: 'auto'
+                }}>
+                    <a href="/mading" style={{ textDecoration: 'none' }}>
+                        <motion.button
+                            whileHover={{ scale: 1.1, rotate: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            style={{
+                                background: '#333',
+                                color: '#FFF',
+                                border: '2px solid #FFF',
+                                padding: '12px 25px',
+                                borderRadius: '30px',
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                                boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}
+                        >
+                            📌 Lihat Mading
+                        </motion.button>
+                    </a>
+                </div>
             </div>
 
             {/* Title / Header */}

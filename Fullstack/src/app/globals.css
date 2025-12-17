@@ -22,8 +22,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  /* Removed flex centering and overflow hidden to allow scrolling on Mading page */
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* overflow: hidden; */
 }

@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.2.10",
     "@supabase/supabase-js": "^2.87.3",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.23.26",
