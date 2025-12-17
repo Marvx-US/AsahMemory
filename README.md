@@ -19,13 +19,23 @@
 *   **☄️ Physics-Based Drag**: Avatar bisa dilempar, memantul di layar, dan berinteraksi secara fisik.
 *   **🎲 Gacha Fate System**: Nasib coding Anda diundi! Dapatkan gelar lucu dengan visual unik.
 *   **🏆 Win Streak Badge**: Jika Champion Anda menang berturut-turut, lencananya akan bersinar di layar utama.
+*   **⏱️ Auto-Expiry System**: Avatar otomatis dihapus setelah 30 menit untuk menjaga kesegaran tampilan.
 
-### 2. ⚔️ Cinematic PVP Arena
+### 2. 📌 Mading Board (Digital Bulletin)
+*   **📝 Interactive Posting**: Tempelkan pesan, catatan, atau kenangan di papan digital bersama.
+*   **🎨 Ransom Note Style**: Setiap post tampil dengan estetika "ransom note" yang unik — teks dengan efek gunting & tempel.
+*   **🖼️ Grid Layout**: Tampilan responsive 3 kolom (desktop), 2 kolom (tablet), 1 kolom (mobile).
+*   **🔍 Modal View**: Klik post untuk melihat detail dalam tampilan yang lebih besar.
+*   **💾 Persistent Storage**: Semua post tersimpan di Supabase dan ditampilkan real-time.
+*   **🎭 Visual Effects**: Setiap post memiliki tape/selotip visual dan efek hover yang interaktif.
+
+### 3. ⚔️ Cinematic PVP Arena
 *   **🎬 Visual Battle**: Bukan cuma teks! Saksikan avatar Anda melakukan **Lunge Attack**, efek **Screen Shake**, dan **Floating Damage Numbers**.
 *   **🔗 Host-Authoritative Sync**: Tidak ada lagi *"di layarku menang, di layarmu kalah"*. Host menghitung RNG, hasilnya dikirim real-time ke lawan.
 *   **☠️ Permadeath**: Kalah battle? Champion Anda **HANCUR** (Dihapus dari localStorage). Gacha ulang dari nol.
+*   **💥 Critical Hit & Dodge**: Sistem combat yang dinamis dengan peluang critical damage dan evasion.
 
-### 3. ⏰ Protocol: ZERO HOUR
+### 4. ⏰ Protocol: ZERO HOUR
 *   Tepat pukul **01:00 WIB**, "Kiamat Kecil" terjadi. Semua avatar dihapus. Void kembali bersih. Kenangan hari itu menjadi sejarah.
 
 ---
@@ -67,9 +77,11 @@ Tidak semua Champion diciptakan setara. Pilih strategimu!
 graph TD
     User[👤 User] -->|Join/Gacha| NextJS[⚛️ Next.js Frontend]
     User -->|Battle PVP| Battle[⚔️ Battle Page]
+    User -->|Post Message| Mading[📌 Mading Board]
     
     subgraph "Data & Sync Layer"
-        NextJS -->|Fetch/Save| DB[(☁️ Supabase DB)]
+        NextJS -->|Fetch/Save Avatars| DB[(☁️ Supabase DB)]
+        Mading -->|Save/Fetch Posts| DB
         NextJS -->|Realtime Update| Broadcast[📡 Supabase Broadcast]
         Battle -->|Attack Event| Broadcast
         Broadcast -->|Sync State| Opponent[👤 Player 2]
