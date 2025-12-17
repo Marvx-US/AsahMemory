@@ -1,13 +1,26 @@
-```text
-    _    ____    _    _   _    __  __ _____ __  __  ___  ____  ___ 
-   / \  / ___|  / \  | | | |  |  \/  | ____|  \/  |/ _ \|  _ \|_ _|
-  / _ \ \___ \ / _ \ | |_| |  | |\/| |  _| | |\/| | | | | |_) || | 
- / ___ \ ___) / ___ \|  _  |  | |  | | |___| |  | | |_| |  _ < | | 
-/_/   \_\____/_/   \_\_| |_|  |_|  |_|_____|_|  |_|\___/|_| \_\___|
-                                               EST. 2025 • DIGITAL VOID
+<div align="center">
+
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║     _    ____    _    _   _    __  __ _____ __  __  ___  ____  ___          ║
+║    / \  / ___|  / \  | | | |  |  \/  | ____|  \/  |/ _ \|  _ \|_ _|         ║
+║   / _ \ \___ \ / _ \ | |_| |  | |\/| |  _| | |\/| | | | | |_) || |          ║
+║  / ___ \ ___) / ___ \|  _  |  | |  | | |___| |  | | |_| |  _ < | |          ║
+║ /_/   \_\____/_/   \_\_| |_|  |_|  |_|_____|_|  |_|\___/|_| \_\___|         ║
+║                                                                              ║
+║                          🌌 DIGITAL VOID • EST. 2025 🌌                      ║
+║                  Where Coding Souls Meet, Connect, and Battle                ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge) ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge) ![Supabase](https://img.shields.io/badge/Supabase-Realtime-green?style=for-the-badge) ![PVP](https://img.shields.io/badge/Battle-CINEMATIC-red?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge) 
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge) 
+![Supabase](https://img.shields.io/badge/Supabase-Realtime-green?style=for-the-badge) 
+![PVP](https://img.shields.io/badge/Battle-CINEMATIC-red?style=for-the-badge)
+
+</div>
 
 **Selamat datang di Digital Void** — Tempat di mana jiwa-jiwa digital bertemu, terhubung, dan bertarung. Asah Memory bukan sekadar galeri, ini adalah *interactive playground* coding. Profil teman-temanmu tidak diam; mereka melayang, bertarung, dan hidup dalam orbit abadi (setidaknya sampai jam 1 pagi).
 
@@ -71,31 +84,45 @@ Tidak semua Champion diciptakan setara. Pilih strategimu!
 
 ---
 
-## 🛠️ Arsitektur Sistem (Visualized)
+## � Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Frontend Framework** | Next.js 15 (React) |
+| **Styling** | Vanilla CSS + Glassmorphism |
+| **Animations** | Framer Motion |
+| **Database** | Supabase (PostgreSQL) |
+| **Realtime** | Supabase Broadcast Channels |
+| **Storage** | Browser LocalStorage + Supabase |
+| **Deployment** | Vercel (Frontend) |
+
+---
+
+## �🛠️ Arsitektur Sistem (Visualized)
 
 ```
-                    ┌────────────────┐
-                    │   👤 User      │
-                    └─────┬─────┬─────┘
-                         │     │
-           ┌─────────┼─────┼─────────┐
-           │         │     │         │
-      ┌────┴────┐  │  ┌────┴────┐  ┌────┴────┐
-      │ Next.js │  │  │ Battle  │  │  Mading  │
-      │ Frontend│  │  │  Page   │  │  Board   │
-      └───┬─┬───┘  │  └───┬────┘  └───┬────┘
-          │ │      │      │          │
-          │ └──────┼──────┼──────────┘
-          │         │      │
-          │    ┌────┴──────┐
-          │    │ ☁️ Supabase │
-          │    │  Database  │
-          │    └──────────┘
-          │
-     ┌────┴───────────┐
-     │ 📱 Realtime    │
-     │   Broadcast     │
-     └───────────────┘
+                       ╭────────────────╮
+                       │   👤 USER      │
+                       ╰──────┬─────┬─────╯
+                              │     │
+              ╭─────────┼─────┼─────────╮
+              │          │     │         │
+         ╭────┴────╮  │  ╭────┴────╮  ╭────┴────╮
+         │ Next.js│  │  │ Battle │  │  Mading │
+         │Frontend│  │  │  Page  │  │  Board  │
+         ╰───┬─┬───╯  │  ╰───┬────╯  ╰───┬────╯
+             │ │      │      │          │
+             │ └──────┼──────┼──────────┘
+             │        │      │
+             │   ╭────┴──────╮
+             │   │ ☁️ Supabase │
+             │   │  Database  │
+             │   ╰──────────╯
+             │
+        ╭────┴───────────╮
+        │ 📱 Realtime    │
+        │   Broadcast     │
+        ╰───────────────╯
 ```
 
 **Data Flow:**
@@ -112,19 +139,24 @@ Berikut adalah panduan visual cara menggunakan setiap fitur di Asah Memory:
 
 ### 🎮 Cara Join ke The Void
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Form
-    participant System
-    participant Void
-    User->>Form: Klik Join The Void
-    User->>Form: Ketik Nama
-    User->>Form: Upload Foto
-    Form->>System: Submit
-    System->>System: Roll Gacha
-    System->>Void: Avatar Muncul
-    Void-->>User: Selamat Datang
+**Sequence Flow:**
+```
+👤 User             📝 Form          🎲 System        🌌 The Void
+  │                 │                │                │
+  ├── Klik Join ───>│                │                │
+  │                 │                │                │
+  ├── Ketik Nama ──>│                │                │
+  │                 │                │                │
+  ├─ Upload Foto ─>│                │                │
+  │                 │                │                │
+  │                 ├── Submit ─────>│                │
+  │                 │                │                │
+  │                 │                ├─🎲 Roll Gacha │
+  │                 │                │                │
+  │                 │                ├── Avatar ────>│
+  │                 │                │                │
+  │<───────────────────────────────────── ✨ Selamat Datang
+  │                 │                │                │
 ```
 
 **Langkah Detail:**
@@ -295,7 +327,31 @@ START
 
 ---
 
-## 🚀 Panduan Instalasi (Development)
+## 🚀 Quick Start
+
+**Cara tercepat untuk mulai:**
+
+```bash
+# Clone repository
+git clone https://github.com/Marvx-US/AsahMemory.git
+cd AsahMemory/Fullstack
+
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env.local
+# Edit .env.local dengan Supabase credentials Anda
+
+# Run development server
+npm run dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000) 🎉
+
+---
+
+## 🛠️ Panduan Instalasi (Development)
 
 Ingin menjalankan project ini di komputer Anda sendiri?
 
@@ -326,6 +382,29 @@ Buka [http://localhost:3000](http://localhost:3000) dan mulai petualangan!
 
 ## 🤝 Kontribusi & Lisensi
 
-Dibuat dengan 💻, ☕, dan sedikit 😡 debugging.
-Dilindungi oleh lisensi [MIT](LICENSE). Bebas digunakan, dilarang dijual mahal-mahal.
-```
+### 👨‍💻 Kontribusi
+
+Kontribusi selalu welcome! Silakan:
+1. Fork repository ini
+2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+### 📜 Lisensi
+
+Project ini dilindungi oleh [MIT License](LICENSE).
+
+**Bebas digunakan dan dikembangkan. Dilarang dijual mahal-mahal! 😉**
+
+---
+
+<div align="center">
+
+**Dibuat dengan 💻, ☕, dan sedikit 😡 debugging**
+
+👉 [GitHub Repository](https://github.com/Marvx-US/AsahMemory) 👈
+
+*EST. 2025 • DIGITAL VOID*
+
+</div>
