@@ -75,21 +75,21 @@ Tidak semua Champion diciptakan setara. Pilih strategimu!
 
 ```mermaid
 graph TD
-    User[👤 User] -->|Join/Gacha| NextJS[⚛️ Next.js Frontend]
-    User -->|Battle PVP| Battle[⚔️ Battle Page]
-    User -->|Post Message| Mading[📌 Mading Board]
+    User[User] -->|Join/Gacha| NextJS[Next.js Frontend]
+    User -->|Battle PVP| Battle[Battle Page]
+    User -->|Post Message| Mading[Mading Board]
     
-    subgraph "Data & Sync Layer"
-        NextJS -->|Fetch/Save Avatars| DB[(☁️ Supabase DB)]
+    subgraph DataSync[Data & Sync Layer]
+        NextJS -->|Fetch/Save Avatars| DB[(Supabase DB)]
         Mading -->|Save/Fetch Posts| DB
-        NextJS -->|Realtime Update| Broadcast[📡 Supabase Broadcast]
+        NextJS -->|Realtime Update| Broadcast[Supabase Broadcast]
         Battle -->|Attack Event| Broadcast
-        Broadcast -->|Sync State| Opponent[👤 Player 2]
+        Broadcast -->|Sync State| Opponent[Player 2]
     end
     
-    subgraph "Local Persistence"
-        Battle -->|Save Streak| LocalStorage[💾 Browser Storage]
-        Battle -->|Permadeath| Delete[❌ Remove Champion]
+    subgraph LocalStore[Local Persistence]
+        Battle -->|Save Streak| LocalStorage[Browser Storage]
+        Battle -->|Permadeath| Delete[Remove Champion]
     end
 ```
 
@@ -104,17 +104,17 @@ Berikut adalah panduan visual cara menggunakan setiap fitur di Asah Memory:
 ```mermaid
 sequenceDiagram
     participant User
-    participant Form as 📝 Profile Form
-    participant System as 🎲 Gacha System
-    participant Void as 🌌 The Void
+    participant Form as Profile Form
+    participant System as Gacha System
+    participant Void as The Void
     
-    User->>Form: 1. Klik "Join The Void"
+    User->>Form: 1. Klik Join The Void
     User->>Form: 2. Ketik Nama
     User->>Form: 3. Upload Foto (Opsional)
     Form->>System: 4. Submit
-    System->>System: 🎲 Roll Gacha!
+    System->>System: Roll Gacha!
     System->>Void: 5. Avatar Muncul
-    Void-->>User: ✨ Selamat Datang!
+    Void-->>User: Selamat Datang!
 ```
 
 **Langkah Detail:**
@@ -135,14 +135,14 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    A[👤 User di Void] --> B[Klik Tab Mading]
-    B --> C[📌 Klik Tempel Tulisan]
-    C --> D[📝 Isi Form]
+    A[User di Void] --> B[Klik Tab Mading]
+    B --> C[Klik Tempel Tulisan]
+    C --> D[Isi Form]
     D --> E{Ada Foto?}
     E -->|Ya| F[Upload Gambar]
     E -->|Tidak| G[Lanjut Submit]
     F --> G
-    G --> H[✅ Post Muncul di Grid]
+    G --> H[Post Muncul di Grid]
     H --> I[Klik Post untuk Detail View]
 ```
 
