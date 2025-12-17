@@ -20,7 +20,7 @@ const RansomTitle = ({ text }) => {
             rotation: Math.random() * 20 - 10,
             colorIdx: Math.floor(Math.random() * BG_COLORS.length),
             fontIdx: Math.floor(Math.random() * FONTS.length),
-            size: 4 + Math.random() * 1.5 // Increased size as requested
+            size: 4 + Math.random() * 1.5 // Base size, will be adjusted by CSS
         }));
         setLetterStyles(styles);
     }, [text]);
@@ -31,7 +31,18 @@ const RansomTitle = ({ text }) => {
     }
 
     return (
-        <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '5px', alignItems: 'center', justifyContent: 'center' }}>
+            <style jsx>{`
+                .ransom-letter {
+                    background: ${BG_COLORS[0]};
+                }
+                @media (max-width: 640px) {
+                    .ransom-letter {
+                        font-size: 2rem !important;
+                        padding: 3px 6px !important;
+                    }
+                }
+            `}</style>
             {text.split('').map((char, i) => {
                 const style = letterStyles[i] || {}; // Fallback
 
@@ -42,6 +53,7 @@ const RansomTitle = ({ text }) => {
                         animate={{ opacity: 1, y: 0, rotate: style.rotation }}
                         transition={{ delay: i * 0.1, type: "spring" }}
                         whileHover={{ scale: 1.2, rotate: 0, zIndex: 10 }}
+                        className="ransom-letter"
                         style={{
                             background: BG_COLORS[style.colorIdx],
                             color: TEXT_COLORS[style.colorIdx],
@@ -63,6 +75,15 @@ const RansomTitle = ({ text }) => {
 };
 
 export default function MadingPage() {
+    const [isMobile, setIsMobile] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMobile(window.innerWidth <= 768);
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <div style={{
             minHeight: '100vh',
@@ -71,51 +92,51 @@ export default function MadingPage() {
             position: 'relative',
             overflowX: 'hidden'
         }}>
-            {/* Reuse Background Decorations for consistency */}
-            <div style={{ position: 'fixed', inset: 0, opacity: 0.5, pointerEvents: 'none' }}>
-                <BackgroundDecorations />
-            </div>
+            {/* Reuse Background Decorations for consistency (Desktop Only) */}
+            {!isMobile && (
+                <div style={{ position: 'fixed', inset: 0, opacity: 0.5, pointerEvents: 'none' }}>
+                    <BackgroundDecorations />
+                </div>
+            )}
 
             {/* Header */}
             <header style={{
                 padding: '40px 20px 20px',
-                textAlign: 'center',
                 position: 'relative',
-                zIndex: 10
+                zIndex: 10,
             }}>
-                <Link href="/" style={{ textDecoration: 'none' }}>
-                    <motion.div
-                        whileHover={{ x: -5 }}
-                        style={{
-                            position: 'absolute',
-                            left: '20px',
-                            top: '40px',
-                            color: '#0055D4',
-                            fontWeight: 'bold',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        ⬅ Kembali
-                    </motion.div>
-                </Link>
+                {/* Back Button - Left Aligned */}
+                <div style={{ textAlign: 'left', marginBottom: '30px' }}>
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                        <motion.div
+                            whileHover={{ x: -5 }}
+                            style={{
+                                color: '#0055D4',
+                                fontWeight: 'bold',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem'
+                            }}
+                        >
+                            ⬅ Kembali
+                        </motion.div>
+                    </Link>
+                </div>
 
-                {/* RANSOM NOTE TITLE */}
-                <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                {/* RANSOM NOTE TITLE - Centered */}
+                <div style={{
+                    marginBottom: '20px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    gap: '10px',
+                }}>
                     <RansomTitle text="MADING" />
                     <div style={{ width: '20px' }}></div> {/* Spacer */}
                     <RansomTitle text="ASAH" />
                 </div>
-
-                <div style={{
-                    width: '100px',
-                    height: '4px',
-                    background: '#0055D4',
-                    margin: '20px auto',
-                    borderRadius: '2px'
-                }} />
             </header>
 
             {/* Board */}

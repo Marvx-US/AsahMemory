@@ -109,7 +109,7 @@ export async function POST(request) {
             message: payload.message.trim(),
             image: payload.image, // Base64
             // Visual Randomness (generated on server for consistency)
-            rotation: Math.floor(Math.random() * 10) - 5, // -5 to +5 deg
+            rotation: Math.floor(Math.random() * 24) - 12, // -12 to +12 deg (MORE MESSY!)
             tapeVariant: Math.floor(Math.random() * 3) + 1, // 1, 2, or 3
         };
 

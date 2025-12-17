@@ -8,9 +8,22 @@ const MadingBoard = () => {
     const [showForm, setShowForm] = useState(false);
 
     const [selectedPost, setSelectedPost] = useState(null);
+    const [visiblePosts, setVisiblePosts] = useState(6); // Initial load: 6 posts
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        // Detect mobile
+        setIsMobile(window.innerWidth <= 768);
+
         fetchPosts();
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const fetchPosts = async () => {
@@ -31,16 +44,19 @@ const MadingBoard = () => {
     };
 
     return (
-        <div style={{ padding: '0px 20px 100px 20px', minHeight: '100vh', width: '100%', position: 'relative' }}>
+        <div style={{
+            padding: '0px 20px 100px 20px',
+            minHeight: '100vh',
+            width: '100%',
+            position: 'relative',
+        }}>
 
-            {/* ACTION BAR */}
+            {/* ACTION BAR - STATIC (not sticky) */}
             <div style={{
-                position: 'sticky',
-                top: '20px',
-                zIndex: 100,
                 display: 'flex',
                 justifyContent: 'center',
-                pointerEvents: 'none' // Allow clicking through empty space
+                paddingTop: '30px',
+                paddingBottom: '20px',
             }}>
                 <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -56,10 +72,10 @@ const MadingBoard = () => {
                         fontWeight: 'bold',
                         boxShadow: '0 4px 15px rgba(0, 85, 212, 0.4)',
                         cursor: 'pointer',
-                        pointerEvents: 'auto', // Re-enable pointer events
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px'
+                        gap: '8px',
+                        zIndex: 50,
                     }}
                 >
                     {showForm ? '❌ Batal' : '📌 Tempel Tulisan'}
@@ -123,38 +139,79 @@ const MadingBoard = () => {
                 )}
             </AnimatePresence>
 
-            {/* POSTS GRID (Standard Grid Layout) */}
+            {/* POSTS GRID (Messy Layout) */}
             <div className="mading-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)', // Fixed 3 columns
-                gap: '20px',
+                gap: '40px 30px', // Larger gap for messy feel
                 width: '100%',
                 maxWidth: '1200px',
-                margin: '80px auto 0 auto',
+                margin: '40px auto 0 auto',
+                padding: '20px',
             }}>
                 <style jsx>{`
-                    @media (max-width: 900px) {
-                        .mading-grid { grid-template-columns: repeat(2, 1fr) !important; }
+                    @media (max-width: 1024px) {
+                        .mading-grid { 
+                            grid-template-columns: repeat(2, 1fr) !important; 
+                            gap: 30px 20px !important;
+                        }
                     }
-                    @media (max-width: 600px) {
-                        .mading-grid { grid-template-columns: 1fr !important; }
+                    @media (max-width: 640px) {
+                        .mading-grid { 
+                            grid-template-columns: 1fr !important; 
+                            gap: 30px !important;
+                            padding: 10px !important;
+                        }
                     }
                 `}</style>
 
-                {posts.map((post) => (
+                {posts.slice(0, visiblePosts).map((post, index) => (
                     <motion.div
                         key={post.id}
                         layoutId={`post-${post.id}`}
                         onClick={() => setSelectedPost(post)}
-                        style={{ display: 'flex', justifyContent: 'center', height: 'fit-content' }}
+                        initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={isMobile ? {} : { delay: index * 0.05 }}
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: 'fit-content',
+                            position: 'relative',
+                        }}
                     >
                         <MadingPost {...post} />
                     </motion.div>
                 ))}
 
                 {posts.length === 0 && (
-                    <div style={{ textAlign: 'center', marginTop: '100px', color: '#999', gridColumn: '1/-1' }}>
-                        <p>Mading masih kosong... Jadilah yang pertama menempel!</p>
+                    <div style={{ textAlign: 'center', marginTop: '100px', color: '#8b7355', gridColumn: '1/-1' }}>
+                        <p style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Mading masih kosong... Jadilah yang pertama menempel!</p>
+                    </div>
+                )}
+
+                {/* Load More Button */}
+                {visiblePosts < posts.length && (
+                    <div style={{ gridColumn: '1/-1', textAlign: 'center', marginTop: '20px' }}>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setVisiblePosts(prev => prev + 6)}
+                            style={{
+                                background: '#0055D4',
+                                color: 'white',
+                                border: 'none',
+                                padding: '12px 30px',
+                                borderRadius: '25px',
+                                fontSize: '1rem',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                boxShadow: '0 4px 15px rgba(0, 85, 212, 0.3)',
+                            }}
+                        >
+                            Muat Lebih Banyak ({posts.length - visiblePosts} tersisa)
+                        </motion.button>
                     </div>
                 )}
             </div>

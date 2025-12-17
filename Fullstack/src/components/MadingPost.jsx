@@ -6,25 +6,38 @@ const MadingPost = ({ name, message, image, rotation, tapeVariant, createdAt, is
     // Tape variant 2: Top Corners
     // Tape variant 3: Messy
 
+    // More extreme rotation for messy look
+    const displayRotation = isExpanded ? 0 : rotation;
+
     return (
         <motion.div
-            initial={isExpanded ? { opacity: 0, scale: 0.9 } : { opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={isExpanded ? {} : { scale: 1.05, zIndex: 10, rotate: 0 }}
+            initial={isExpanded ? { opacity: 0, scale: 0.9 } : { opacity: 0, scale: 0.8, rotate: rotation }}
+            animate={{ opacity: 1, scale: 1, rotate: displayRotation }}
+            whileHover={isExpanded ? {} : { scale: 1.08, zIndex: 10, rotate: 0, y: -5 }}
             style={{
                 backgroundColor: '#fff',
                 padding: '15px 15px 25px 15px', // More padding at bottom for text
-                boxShadow: isExpanded ? '0 20px 50px rgba(0,0,0,0.5)' : '2px 4px 8px rgba(0,0,0,0.2)', // Deeper shadow for modal
-                transform: isExpanded ? 'rotate(0deg)' : `rotate(${rotation}deg)`,
+                boxShadow: isExpanded ? '0 20px 50px rgba(0,0,0,0.5)' : '3px 6px 12px rgba(0,0,0,0.3)', // Stronger shadow
+                transform: `rotate(${displayRotation}deg)`,
                 width: '100%',
-                maxWidth: isExpanded ? '600px' : '280px', // Much larger in modal
+                maxWidth: isExpanded ? '90vw' : '100%', // Responsive max width
                 position: 'relative',
                 display: 'inline-block',
-                margin: isExpanded ? '0' : '15px',
+                margin: isExpanded ? '0' : '10px',
                 fontFamily: "'Courier New', Courier, monospace", // Typewriter feel
                 cursor: isExpanded ? 'default' : 'pointer', // Pointer when clickable
+                border: '1px solid #e5e5e5',
             }}
+            className="mading-post"
         >
+            <style jsx>{`
+                @media (max-width: 640px) {
+                    .mading-post {
+                        max-width: ${isExpanded ? '95vw' : '100%'} !important;
+                        padding: 12px 12px 20px 12px !important;
+                    }
+                }
+            `}</style>
             {/* TAPE VISUALS - MASKING TAPE STYLE (High Contrast) */}
             {/* Variant 1: Top Center (Standard) */}
             {(tapeVariant === 1 || !tapeVariant) && (
